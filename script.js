@@ -322,7 +322,7 @@ function initializeMap() {
 async function loadCafes() {
     try {
         // Check if Firebase functions are available
-        if (typeof getCafesFromDatabase !== 'function') {
+        if (typeof window.getCafesFromDatabase !== 'function') {
             console.log('Firebase not ready, using sample data');
             cafes = [...sampleCafes];
             addCafeMarkers();
@@ -331,7 +331,7 @@ async function loadCafes() {
         }
         
         showToast('Loading cafes from database...', 'info');
-        const databaseCafes = await getCafesFromDatabase();
+        const databaseCafes = await window.getCafesFromDatabase();
         
         console.log('Database cafes loaded:', databaseCafes.length);
         console.log('Database cafe IDs:', databaseCafes.map(c => ({ id: c.id, name: c.name, type: typeof c.id })));
@@ -350,7 +350,7 @@ async function loadCafes() {
             // Save sample cafes to database
             for (const cafe of sampleCafes) {
                 try {
-                    const newId = await addCafeToDatabase(cafe);
+                    const newId = await window.addCafeToDatabase(cafe);
                     console.log(`Saved cafe "${cafe.name}" with new ID: ${newId}`);
                 } catch (error) {
                     console.error('Error saving sample cafe:', error);
@@ -496,7 +496,7 @@ async function loadReviews() {
     try {
         console.log('About to call getReviewsFromDatabase with cafe ID:', selectedCafe.id);
         // Load reviews from Firebase
-        const reviews = await getReviewsFromDatabase(selectedCafe.id);
+        const reviews = await window.getReviewsFromDatabase(selectedCafe.id);
         console.log('Reviews loaded from database:', reviews);
         
         // Update local cafe object with reviews from database
@@ -693,7 +693,7 @@ async function submitReview(event) {
     
     try {
         // Check if Firebase functions are available
-        if (typeof addReviewToDatabase !== 'function') {
+        if (typeof window.addReviewToDatabase !== 'function') {
             throw new Error('Firebase functions not available');
         }
         
@@ -710,7 +710,7 @@ async function submitReview(event) {
                 rating: selectedCafe.rating,
                 reviewCount: selectedCafe.reviewCount
             };
-            const newCafeId = await addCafeToDatabase(cafeData);
+            const newCafeId = await window.addCafeToDatabase(cafeData);
             selectedCafe.id = newCafeId;
             console.log('Cafe saved with new ID:', newCafeId);
         }
@@ -729,7 +729,7 @@ async function submitReview(event) {
         console.log('Review data:', newReview);
 
         // Add review to Firebase database
-        await addReviewToDatabase(selectedCafe.id, newReview);
+        await window.addReviewToDatabase(selectedCafe.id, newReview);
         
         // Add review to local cafe object
         const reviewWithId = { ...newReview, id: Date.now() };
@@ -739,7 +739,7 @@ async function submitReview(event) {
         const newRating = calculateAverageRating(selectedCafe.reviews);
         const newReviewCount = selectedCafe.reviews.length;
         
-        await updateCafeRating(selectedCafe.id, newRating, newReviewCount);
+        await window.updateCafeRating(selectedCafe.id, newRating, newReviewCount);
         
         // Update local cafe object
         selectedCafe.rating = newRating;
@@ -1506,7 +1506,7 @@ async function submitCafe(event) {
         };
 
         // Add to Firebase database
-        const cafeId = await addCafeToDatabase(newCafe);
+        const cafeId = await window.addCafeToDatabase(newCafe);
         
         // Add to local array with the database ID
         const cafeWithId = { ...newCafe, id: cafeId };
@@ -1558,7 +1558,7 @@ async function geocodeAddress(address) {
 
 // Function to clear database and repopulate with all 16 cafes
 async function updateDatabaseWithAllCafes() {
-    if (typeof getCafesFromDatabase !== 'function') {
+    if (typeof window.getCafesFromDatabase !== 'function') {
         console.error('Firebase functions not available');
         showToast('Firebase not available', 'error');
         return;
@@ -1569,7 +1569,7 @@ async function updateDatabaseWithAllCafes() {
         console.log('Starting database update...');
         
         // Get all existing cafes
-        const existingCafes = await getCafesFromDatabase();
+        const existingCafes = await window.getCafesFromDatabase();
         console.log('Existing cafes in database:', existingCafes.length);
         console.log('Existing cafe names:', existingCafes.map(c => c.name));
         
@@ -1590,7 +1590,7 @@ async function updateDatabaseWithAllCafes() {
         // Add all sample cafes to database
         for (const cafe of sampleCafes) {
             try {
-                const newId = await addCafeToDatabase(cafe);
+                const newId = await window.addCafeToDatabase(cafe);
                 console.log(`✓ Added cafe "${cafe.name}" with ID: ${newId}`);
             } catch (error) {
                 console.error(`✗ Error adding cafe ${cafe.name}:`, error);
@@ -1615,7 +1615,7 @@ async function updateDatabaseWithAllCafes() {
 
 // Simple function to just add missing cafes (without deleting existing ones)
 async function addMissingCafes() {
-    if (typeof getCafesFromDatabase !== 'function') {
+    if (typeof window.getCafesFromDatabase !== 'function') {
         console.error('Firebase functions not available');
         showToast('Firebase not available', 'error');
         return;
@@ -1625,7 +1625,7 @@ async function addMissingCafes() {
         showToast('Adding missing cafes to database...', 'info');
         
         // Get current cafes from database
-        const existingCafes = await getCafesFromDatabase();
+        const existingCafes = await window.getCafesFromDatabase();
         console.log('Current cafes in database:', existingCafes.length);
         
         // Find cafes that are missing
@@ -1642,7 +1642,7 @@ async function addMissingCafes() {
         // Add missing cafes
         for (const cafe of missingCafes) {
             try {
-                const newId = await addCafeToDatabase(cafe);
+                const newId = await window.addCafeToDatabase(cafe);
                 console.log(`✓ Added missing cafe "${cafe.name}" with ID: ${newId}`);
             } catch (error) {
                 console.error(`✗ Error adding cafe ${cafe.name}:`, error);

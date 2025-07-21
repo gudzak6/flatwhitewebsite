@@ -18,6 +18,14 @@
     <script src="firebase-config.js"></script>
     <script src="populate-database.js"></script>
     <script>
+        // Test if Firebase functions are loaded
+        console.log('Testing Firebase functions after firebase-config.js loads:');
+        console.log('getReviewsFromDatabase:', typeof getReviewsFromDatabase);
+        console.log('window.getReviewsFromDatabase:', typeof window.getReviewsFromDatabase);
+        console.log('firebase object:', typeof firebase);
+        console.log('db object:', typeof db);
+    </script>
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
