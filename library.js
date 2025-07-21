@@ -20,7 +20,7 @@ async function loadCafes() {
         document.getElementById('cafesContainer').innerHTML = '';
         
         // Load cafes from Firebase
-        const cafesData = await getCafesFromDatabase();
+        const cafesData = await window.getCafesFromDatabase();
         
         // Transform the data to match our format
         cafes = cafesData.map(cafe => ({
@@ -272,7 +272,7 @@ async function loadReviews() {
 
     try {
         // Load reviews from Firebase
-        const reviews = await getReviewsFromDatabase(selectedCafe.id);
+        const reviews = await window.getReviewsFromDatabase(selectedCafe.id);
         
         // Update local cafe object with reviews from database
         selectedCafe.reviews = reviews.map(review => ({
@@ -425,7 +425,7 @@ async function submitReview(event) {
     
     try {
         // Check if Firebase functions are available
-        if (typeof addReviewToDatabase !== 'function') {
+        if (typeof window.addReviewToDatabase !== 'function') {
             throw new Error('Firebase functions not available');
         }
         
@@ -442,7 +442,7 @@ async function submitReview(event) {
                 rating: selectedCafe.rating,
                 reviewCount: selectedCafe.reviewCount
             };
-            const newCafeId = await addCafeToDatabase(cafeData);
+            const newCafeId = await window.addCafeToDatabase(cafeData);
             selectedCafe.id = newCafeId;
             console.log('Cafe saved with new ID:', newCafeId);
         }
@@ -461,7 +461,7 @@ async function submitReview(event) {
         console.log('Review data:', newReview);
 
         // Add review to Firebase database
-        await addReviewToDatabase(selectedCafe.id, newReview);
+        await window.addReviewToDatabase(selectedCafe.id, newReview);
         
         // Add review to local cafe object
         const reviewWithId = { ...newReview, id: Date.now() };
@@ -471,7 +471,7 @@ async function submitReview(event) {
         const newRating = calculateAverageRating(selectedCafe.reviews);
         const newReviewCount = selectedCafe.reviews.length;
         
-        await updateCafeRating(selectedCafe.id, newRating, newReviewCount);
+        await window.updateCafeRating(selectedCafe.id, newRating, newReviewCount);
         
         // Update local cafe object
         selectedCafe.rating = newRating;
@@ -557,7 +557,7 @@ async function submitCafe(event) {
         };
         
         // Add to Firebase
-        await addCafeToDatabase(cafeData);
+        await window.addCafeToDatabase(cafeData);
         
         // Close modal and refresh
         closeAddCafeModal();
