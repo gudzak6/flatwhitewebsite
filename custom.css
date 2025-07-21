@@ -1,0 +1,488 @@
+/* Custom Coffee Theme Enhancements */
+
+/* Coffee color variables for DaisyUI */
+:root {
+    --coffee-50: #fdfbf9;
+    --coffee-100: #f9f5f1;
+    --coffee-200: #f3ede7;
+    --coffee-300: #e8ddd3;
+    --coffee-400: #d9c8bb;
+    --coffee-500: #ccbaa9;
+    --coffee-600: #b8a595;
+    --coffee-700: #9a8a7a;
+    --coffee-800: #7f7265;
+    --coffee-900: #6a5f54;
+}
+
+/* Custom coffee button styles */
+.btn-coffee {
+    @apply bg-coffee-600 hover:bg-coffee-700 text-white border-coffee-600;
+}
+
+.btn-coffee.btn-outline {
+    @apply bg-transparent text-coffee-600 border-coffee-600 hover:bg-coffee-600 hover:text-white;
+}
+
+/* Enhanced modal styling */
+.modal-box {
+    @apply bg-white border border-coffee-200;
+}
+
+/* Custom map marker styling */
+.custom-marker {
+    @apply bg-gradient-to-br from-coffee-600 to-coffee-800 border-2 border-white rounded-full w-8 h-8 flex items-center justify-center text-white text-sm font-semibold shadow-lg cursor-pointer transition-transform duration-200;
+}
+
+.custom-marker:hover {
+    @apply scale-110;
+}
+
+/* Enhanced hero section */
+.hero {
+    background: linear-gradient(135deg, var(--coffee-900) 0%, var(--coffee-700) 100%);
+}
+
+/* Stats enhancement */
+.stats {
+    @apply bg-coffee-800/50 backdrop-blur-sm border border-coffee-700/30;
+}
+
+/* Rating enhancement */
+.rating input:checked ~ input {
+    @apply bg-orange-400;
+}
+
+/* Custom star rating styling for review form */
+#ratingInput input[type="radio"] {
+    @apply bg-gray-300 transition-colors duration-200;
+}
+
+#ratingInput input[type="radio"]:checked {
+    @apply bg-orange-400;
+}
+
+#ratingInput input[type="radio"]:hover {
+    @apply bg-orange-300;
+}
+
+/* Override DaisyUI's default behavior for the review form rating */
+#ratingInput input[type="radio"]:checked ~ input[type="radio"] {
+    @apply bg-gray-300;
+}
+
+/* Card enhancements */
+.card {
+    @apply transition-all duration-200;
+}
+
+.card:hover {
+    @apply shadow-md;
+}
+
+/* Navigation enhancement */
+.navbar {
+    @apply backdrop-blur-sm bg-coffee-800/95;
+}
+
+/* Footer enhancement */
+.footer {
+    @apply bg-gradient-to-br from-coffee-900 to-coffee-800;
+}
+
+/* Form enhancements */
+.input:focus, .textarea:focus {
+    @apply border-coffee-500 ring-coffee-500/20;
+}
+
+/* Button enhancements */
+.btn-primary {
+    @apply bg-coffee-600 hover:bg-coffee-700 border-coffee-600;
+}
+
+.btn-outline {
+    @apply border-coffee-600 text-coffee-600 hover:bg-coffee-600 hover:text-white;
+}
+
+/* Link enhancements */
+.link-hover:hover {
+    @apply text-amber-300;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .hero h2 {
+        @apply text-4xl;
+    }
+    
+    .stats {
+        @apply grid-cols-1 gap-4;
+    }
+    
+    .footer .grid {
+        @apply grid-cols-1 gap-8;
+    }
+}
+
+/* Loading animation */
+.loading {
+    @apply inline-block w-5 h-5 border-2 border-coffee-200 border-t-coffee-600 rounded-full animate-spin;
+}
+
+/* Toast enhancements */
+.toast {
+    @apply fixed top-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-white font-medium max-w-sm;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.toast.error {
+    @apply bg-red-500;
+}
+
+.toast.success {
+    @apply bg-green-500;
+}
+
+.toast.info {
+    @apply bg-blue-500;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* User location marker */
+.user-location-marker {
+    @apply animate-pulse;
+}
+
+/* Map container enhancement */
+#map {
+    @apply rounded-xl shadow-lg border border-coffee-200;
+}
+
+/* Map loading overlay */
+#mapLoading {
+    @apply transition-opacity duration-300;
+}
+
+/* Sidebar styling */
+.sidebar {
+    @apply bg-white shadow-lg border-r border-coffee-200;
+}
+
+/* Map stats enhancement */
+#map .stats {
+    @apply bg-white/90 backdrop-blur-sm;
+}
+
+#map .stats .stat {
+    @apply border-coffee-200;
+}
+
+#map .stats .stat-value {
+    @apply text-coffee-800 font-bold;
+}
+
+#map .stats .stat-title {
+    @apply text-coffee-600;
+}
+
+#map .stats .stat-figure {
+    @apply text-coffee-600;
+}
+
+/* Compact map controls */
+#map .btn-sm {
+    @apply text-xs px-2 py-1;
+}
+
+#map .input-sm {
+    @apply text-xs;
+}
+
+/* Map section spacing */
+#map {
+    @apply transition-all duration-300;
+}
+
+/* Google Maps Style Layout */
+.map-container {
+    @apply relative w-full h-screen;
+}
+
+.map-fullscreen {
+    @apply w-full h-full relative;
+}
+
+/* Top navigation bar */
+.top-nav {
+    @apply absolute top-0 left-0 right-0 z-20 bg-white/95 backdrop-blur-sm border-b border-coffee-200 shadow-sm;
+}
+
+/* Search panel overlay */
+.search-panel {
+    @apply absolute top-20 left-4 z-20 w-80 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200;
+}
+
+/* Map title overlay */
+.map-title-overlay {
+    @apply absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .search-panel {
+        @apply w-72 left-2 right-2;
+    }
+    
+    .map-title-overlay {
+        @apply bottom-2 right-2;
+    }
+}
+
+@media (max-width: 640px) {
+    .search-panel {
+        @apply w-full left-0 right-0 mx-2;
+    }
+    
+    .top-nav {
+        @apply px-2;
+    }
+}
+
+/* Legend colors */
+.legend-red { @apply bg-red-500; }
+.legend-orange { @apply bg-orange-500; }
+.legend-yellow { @apply bg-yellow-500; }
+.legend-green { @apply bg-green-500; }
+.legend-blue { @apply bg-blue-500; }
+
+/* Search panel sections */
+.search-section {
+    @apply mb-4;
+}
+
+.search-section h4 {
+    @apply text-sm font-bold text-coffee-800 mb-2;
+}
+
+/* Quick stats panel */
+.quick-stats {
+    @apply bg-coffee-50 rounded-lg p-3;
+}
+
+.quick-stats h4 {
+    @apply text-sm font-bold text-coffee-800 mb-2;
+}
+
+.stat-row {
+    @apply flex justify-between;
+}
+
+.stat-label {
+    @apply text-xs text-coffee-600;
+}
+
+.stat-value {
+    @apply text-xs font-semibold text-coffee-800;
+}
+
+/* Search box enhancement */
+.join .input {
+    @apply border-coffee-300 focus:border-coffee-500;
+}
+
+.join .btn {
+    @apply bg-coffee-600 hover:bg-coffee-700 border-coffee-600;
+}
+
+/* Modal backdrop enhancement */
+.modal-backdrop {
+    @apply bg-black/50 backdrop-blur-sm;
+}
+
+/* Rating display enhancement */
+.rating-display {
+    @apply pointer-events-none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-coffee-100;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-coffee-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-coffee-600;
+}
+
+/* Animation enhancements */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Coffee icon enhancement */
+.fa-coffee {
+    @apply text-amber-300;
+}
+
+/* Social links enhancement */
+.btn-circle:hover {
+    @apply bg-coffee-700 text-amber-300;
+}
+
+/* Divider enhancement */
+.divider {
+    @apply border-coffee-700;
+}
+
+/* Text gradient enhancement */
+.text-gradient {
+    @apply bg-gradient-to-r from-amber-300 to-amber-100 bg-clip-text text-transparent;
+}
+
+/* Search results styling */
+#searchResults {
+    @apply max-h-64 overflow-y-auto;
+}
+
+#searchResults .card {
+    @apply transition-all duration-200;
+}
+
+#searchResults .card:hover {
+    @apply shadow-md transform scale-[1.02];
+}
+
+/* Search input enhancement */
+#cafeSearchInput {
+    @apply pr-12;
+}
+
+/* Badge styling */
+.badge-outline {
+    @apply border-coffee-300 text-coffee-700;
+}
+
+/* Loading animation for search */
+.loading {
+    @apply inline-block w-5 h-5 border-2 border-coffee-200 border-t-coffee-600 rounded-full animate-spin;
+}
+
+/* Alert styling */
+.alert-info {
+    @apply bg-blue-50 border-blue-200 text-blue-800;
+}
+
+.alert-info i {
+    @apply text-blue-600;
+}
+
+/* About page enhancements */
+#about {
+    @apply relative;
+}
+
+#about::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-coffee-50/50 to-coffee-100/50;
+    z-index: -1;
+}
+
+#about .card {
+    @apply transition-all duration-300 hover:shadow-xl;
+}
+
+#about .card:hover {
+    @apply transform -translate-y-1;
+}
+
+/* Emoji styling */
+#about .text-3xl {
+    @apply filter drop-shadow-sm;
+}
+
+/* Contact link enhancement */
+#about a[href^="mailto:"] {
+    @apply transition-colors duration-200;
+}
+
+#about a[href^="mailto:"]:hover {
+    @apply text-coffee-800;
+}
+
+/* Call to action button enhancement */
+#about .btn-primary {
+    @apply transform transition-all duration-200 hover:scale-105;
+}
+
+/* Responsive text sizing */
+@media (max-width: 768px) {
+    #about h2 {
+        @apply text-3xl;
+    }
+    
+    #about h3 {
+        @apply text-xl;
+    }
+    
+    #about .text-lg {
+        @apply text-base;
+    }
+}
+
+/* Review animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal scrollbar styling */
+.modal-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-box::-webkit-scrollbar-thumb {
+    background: #ccbaa9;
+    border-radius: 3px;
+}
+
+.modal-box::-webkit-scrollbar-thumb:hover {
+    background: #b8a595;
+} 

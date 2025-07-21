@@ -1,0 +1,24 @@
+{
+  "name": "flatwhitewebsite",
+  "version": "1.0.0",
+  "description": "Flat White Finder - Discover the best flat whites in your city",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "update-db": "node update-firebase-db.js",
+    "dev": "python3 -m http.server 8080"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.11.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "coffee",
+    "cafe",
+    "flat-white",
+    "mapbox",
+    "firebase"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+} 
