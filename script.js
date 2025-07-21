@@ -486,12 +486,18 @@ function updateCafeModalStars(rating) {
 
 // Load reviews for selected cafe from Firebase
 async function loadReviews() {
+    console.log('loadReviews called for cafe:', selectedCafe);
+    console.log('getReviewsFromDatabase function exists:', typeof getReviewsFromDatabase);
+    console.log('window.getReviewsFromDatabase exists:', typeof window.getReviewsFromDatabase);
+    
     const reviewsList = document.getElementById('reviewsList');
     reviewsList.innerHTML = '<div class="text-center"><div class="loading"></div><p class="text-sm text-coffee-600 mt-2">Loading reviews...</p></div>';
 
     try {
+        console.log('About to call getReviewsFromDatabase with cafe ID:', selectedCafe.id);
         // Load reviews from Firebase
         const reviews = await getReviewsFromDatabase(selectedCafe.id);
+        console.log('Reviews loaded from database:', reviews);
         
         // Update local cafe object with reviews from database
         selectedCafe.reviews = reviews.map(review => ({
@@ -500,10 +506,17 @@ async function loadReviews() {
             date: review.createdAt ? new Date(review.createdAt.toDate()).toISOString().split('T')[0] : review.date
         }));
         
+        console.log('Updated selectedCafe.reviews:', selectedCafe.reviews);
+        
         // Update the display with the loaded reviews
         updateReviewsDisplay();
     } catch (error) {
         console.error('Error loading reviews:', error);
+        console.error('Error details:', {
+            message: error.message,
+            code: error.code,
+            stack: error.stack
+        });
         reviewsList.innerHTML = '<p class="text-center text-red-600">Error loading reviews. Please try again.</p>';
     }
 }

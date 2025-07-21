@@ -3,12 +3,12 @@
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyCYWO9UI_hdYyAfvMSn-Mce0Oe947dihhg",
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN || "flatwhitewebsite.firebaseapp.com",
-  projectId: process.env.FIREBASE_PROJECT_ID || "flatwhitewebsite",
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "flatwhitewebsite.firebasestorage.app",
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "348416375349",
-  appId: process.env.FIREBASE_APP_ID || "1:348416375349:web:1fbcfddfb3896cfe3b4f7c",
+  apiKey: "AIzaSyCYWO9UI_hdYyAfvMSn-Mce0Oe947dihhg",
+  authDomain: "flatwhitewebsite.firebaseapp.com",
+  projectId: "flatwhitewebsite",
+  storageBucket: "flatwhitewebsite.firebasestorage.app",
+  messagingSenderId: "348416375349",
+  appId: "1:348416375349:web:1fbcfddfb3896cfe3b4f7c",
   measurementId: "G-3BB70RKTQ5"
 };
 
@@ -68,16 +68,25 @@ const addReviewToDatabase = async (cafeId, reviewData) => {
 
 const getReviewsFromDatabase = async (cafeId) => {
     try {
+        console.log("Fetching reviews for cafe ID:", cafeId);
+        console.log("Firebase db object:", db);
+        
         const querySnapshot = await db.collection("reviews")
             .where("cafeId", "==", cafeId)
             // Removed orderBy to avoid index requirement - will sort in JavaScript
             .get();
+        
+        console.log("Query snapshot:", querySnapshot);
+        console.log("Number of reviews found:", querySnapshot.size);
+        
         const reviews = [];
         querySnapshot.forEach((doc) => {
-            reviews.push({
+            const reviewData = {
                 id: doc.id,
                 ...doc.data()
-            });
+            };
+            console.log("Review data:", reviewData);
+            reviews.push(reviewData);
         });
         
         // Sort reviews by createdAt date in JavaScript instead of Firestore
@@ -87,9 +96,15 @@ const getReviewsFromDatabase = async (cafeId) => {
             return dateB - dateA; // Descending order (newest first)
         });
         
+        console.log("Final sorted reviews:", reviews);
         return reviews;
     } catch (error) {
         console.error("Error getting reviews: ", error);
+        console.error("Error details:", {
+            message: error.message,
+            code: error.code,
+            stack: error.stack
+        });
         throw error;
     }
 };
@@ -112,4 +127,13 @@ window.addCafeToDatabase = addCafeToDatabase;
 window.getCafesFromDatabase = getCafesFromDatabase;
 window.addReviewToDatabase = addReviewToDatabase;
 window.getReviewsFromDatabase = getReviewsFromDatabase;
-window.updateCafeRating = updateCafeRating; 
+window.updateCafeRating = updateCafeRating;
+
+// Debug: Check if functions are available
+console.log('Firebase functions loaded:', {
+    addCafeToDatabase: typeof window.addCafeToDatabase,
+    getCafesFromDatabase: typeof window.getCafesFromDatabase,
+    addReviewToDatabase: typeof window.addReviewToDatabase,
+    getReviewsFromDatabase: typeof window.getReviewsFromDatabase,
+    updateCafeRating: typeof window.updateCafeRating
+}); 
