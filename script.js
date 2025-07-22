@@ -394,7 +394,7 @@ function addCafeMarkers(cafesToShow = cafes) {
         // Add trending class if the cafe is trending
         if (cafe.id === trendingCafeId) {
             markerEl.classList.add('trending-marker');
-            markerEl.innerHTML = '<i class="fas fa-fire"></i>';
+            markerEl.innerHTML = '<i class="fas fa-star"></i>';
         }
 
         // Create popup
