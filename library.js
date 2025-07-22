@@ -3,7 +3,6 @@ let cafes = [];
 let filteredCafes = [];
 let selectedCafe = null;
 let currentFilter = 'all';
-let trendingCafeId = 1; // Trending cafe ID - change this weekly
 
 // Initialize the library page
 document.addEventListener('DOMContentLoaded', function() {
@@ -646,16 +645,4 @@ function setupEventListeners() {
     });
 } 
 
-// Change trending cafe (call this weekly)
-function setTrendingCafe(newCafeId) {
-    trendingCafeId = newCafeId;
-    
-    // Update cafe display
-    displayCafes();
-    
-    // Update stats
-    updateStats();
-    
-    console.log(`Trending cafe changed to ID: ${trendingCafeId}`);
-    showToast(`Trending spot updated!`, 'success');
-} 
+ 
