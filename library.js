@@ -81,7 +81,7 @@ function displayCafes() {
 // Create a cafe card element
 function createCafeCard(cafe) {
     const card = document.createElement('div');
-    card.className = `card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${cafe.id === trendingCafeId ? 'trending-cafe' : ''}`;
+    card.className = 'card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer';
     card.onclick = () => openCafeDetails(cafe.id);
     
     // Generate star rating HTML
@@ -90,10 +90,7 @@ function createCafeCard(cafe) {
     card.innerHTML = `
         <div class="card-body">
             <div class="flex justify-between items-start mb-3">
-                <h3 class="card-title text-coffee-800 text-lg">
-                    ${cafe.name}
-                    ${cafe.id === trendingCafeId ? '<span class="trending-badge"><i class="fas fa-fire"></i> TRENDING</span>' : ''}
-                </h3>
+                <h3 class="card-title text-coffee-800 text-lg">${cafe.name}</h3>
                 <div class="badge badge-coffee">${cafe.rating.toFixed(1)}</div>
             </div>
             

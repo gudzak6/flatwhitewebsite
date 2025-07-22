@@ -467,10 +467,7 @@ function openCafeDetails(cafeId) {
     }
 
             // Update modal content
-        document.getElementById('cafeName').innerHTML = `
-            ${selectedCafe.name}
-            ${selectedCafe.id === trendingCafeId ? '<span class="trending-badge"><i class="fas fa-fire"></i> TRENDING</span>' : ''}
-        `;
+        document.getElementById('cafeName').textContent = selectedCafe.name;
         document.getElementById('cafeScore').textContent = selectedCafe.rating;
         document.getElementById('cafeAddress').textContent = selectedCafe.address;
         document.getElementById('cafeHours').textContent = selectedCafe.hours;

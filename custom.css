@@ -65,27 +65,7 @@
     }
 }
 
-/* Trending cafe card styles */
-.trending-cafe {
-    border: 2px solid #FF6B35;
-    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 147, 30, 0.1) 100%);
-    position: relative;
-    overflow: hidden;
-}
 
-.trending-cafe::before {
-    content: "🔥 TRENDING";
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: bold;
-    z-index: 10;
-}
 
 /* Trending badge for cafe details */
 .trending-badge {
