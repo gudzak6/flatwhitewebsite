@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test</title>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    <div id="status">Testing connection...</div>
+    <div id="result"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCYWO9UI_hdYyAfvMSn-Mce0Oe947dihhg",
+            authDomain: "flatwhitewebsite.firebaseapp.com",
+            projectId: "flatwhitewebsite",
+            storageBucket: "flatwhitewebsite.firebasestorage.app",
+            messagingSenderId: "348416375349",
+            appId: "1:348416375349:web:1fbcfddfb3896cfe3b4f7c",
+            measurementId: "G-3BB70RKTQ5"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        async function testFirebaseConnection() {
+            const statusDiv = document.getElementById('status');
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                statusDiv.textContent = 'Testing Firebase connection...';
+                
+                // Test 1: Check if Firebase is initialized
+                if (!firebase) {
+                    throw new Error('Firebase not loaded');
+                }
+                
+                // Test 2: Check if Firestore is available
+                if (!db) {
+                    throw new Error('Firestore not initialized');
+                }
+                
+                // Test 3: Try to read from database
+                statusDiv.textContent = 'Reading from database...';
+                const querySnapshot = await db.collection("cafes").limit(1).get();
+                
+                statusDiv.textContent = 'Connection successful!';
+                resultDiv.innerHTML = `
+                    <h3>✅ Firebase Connection Test Results:</h3>
+                    <ul>
+                        <li><strong>Firebase SDK:</strong> Loaded ✅</li>
+                        <li><strong>Firestore:</strong> Initialized ✅</li>
+                        <li><strong>Database Access:</strong> Working ✅</li>
+                        <li><strong>Cafes in DB:</strong> ${querySnapshot.size} found</li>
+                        <li><strong>Project ID:</strong> ${firebaseConfig.projectId}</li>
+                    </ul>
+                    <p><strong>Status:</strong> Your Firebase connection is working correctly!</p>
+                `;
+                
+            } catch (error) {
+                statusDiv.textContent = 'Connection failed!';
+                resultDiv.innerHTML = `
+                    <h3>❌ Firebase Connection Test Results:</h3>
+                    <ul>
+                        <li><strong>Error:</strong> ${error.message}</li>
+                        <li><strong>Code:</strong> ${error.code || 'N/A'}</li>
+                    </ul>
+                    <p><strong>Status:</strong> There's an issue with your Firebase connection.</p>
+                `;
+                console.error('Firebase test error:', error);
+            }
+        }
+
+        // Run the test when page loads
+        testFirebaseConnection();
+    </script>
+</body>
+</html> 

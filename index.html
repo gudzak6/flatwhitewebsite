@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics-compat.js"></script>
@@ -50,18 +50,18 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="navbar bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50">
-        <div class="navbar-start">
+    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-2 sm:px-0">
+        <div class="navbar-start flex flex-col sm:flex-row items-center gap-2 py-2 sm:py-0">
             <div class="flex items-center gap-2">
                 <i class="fas fa-coffee text-2xl text-coffee-300"></i>
                 <h1 class="text-xl font-bold">Flat White Finder</h1>
             </div>
         </div>
-        <div class="navbar-end">
-            <div class="flex items-center gap-4">
-                <a href="library.html" class="link link-hover">Library</a>
-                <a href="about.html" class="link link-hover">About</a>
-                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0" onclick="openAddCafeModal()">
+        <div class="navbar-end flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                <a href="library.html" class="link link-hover w-full sm:w-auto text-center">Library</a>
+                <a href="about.html" class="link link-hover w-full sm:w-auto text-center">About</a>
+                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto" onclick="openAddCafeModal()">
                     <i class="fas fa-plus"></i> Add Cafe
                 </button>
             </div>
@@ -69,36 +69,36 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-16">
+    <section class="hero min-h-[30vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-24 sm:pt-16">
         <div class="hero-content text-center">
-            <div class="max-w-3xl mx-auto px-4">
-                <h2 class="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
+            <div class="max-w-md sm:max-w-3xl mx-auto px-2 sm:px-4">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
                     Discover the Best Flat Whites in Your City
                 </h2>
-                <p class="text-base mb-6 opacity-90 max-w-xl mx-auto">
+                <p class="text-sm sm:text-base mb-4 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
                     Explore coffee shops, read reviews, and find your perfect flat white.
                 </p>
-                <div class="stats shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-4">
-                    <div class="stat">
+                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-2 sm:p-4">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-store text-lg"></i>
+                            <i class="fas fa-store text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Cafes</div>
-                        <div class="stat-value text-coffee-300 text-lg" id="heroCafeCount">0</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-lg" id="heroCafeCount">0</div>
                     </div>
-                    <div class="stat">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-star text-lg"></i>
+                            <i class="fas fa-star text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Reviews</div>
-                        <div class="stat-value text-coffee-300 text-lg" id="heroReviewCount">0</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-lg" id="heroReviewCount">0</div>
                     </div>
-                    <div class="stat">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-heart text-lg"></i>
+                            <i class="fas fa-heart text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Avg Rating</div>
-                        <div class="stat-value text-coffee-300 text-lg" id="heroAvgRating">0</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-lg" id="heroAvgRating">0</div>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
     </section>
 
     <!-- Map Section -->
-    <section id="map" class="relative w-full h-screen bg-base-100">
+    <section id="map" class="relative w-full h-[60vh] sm:h-screen bg-base-100">
         <!-- Full Screen Map Container -->
         <div id="map" class="w-full h-full relative">
             <!-- Map Loading Overlay -->
@@ -121,8 +121,8 @@
 
 
         <!-- Search Panel (Google Maps Style) -->
-        <div class="absolute top-20 left-4 z-20 w-80">
-            <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-4">
+        <div class="absolute top-4 left-1 right-1 sm:top-20 sm:left-4 sm:w-80 z-20">
+            <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-2 sm:p-4">
                 <!-- Search Bar (Temporarily Disabled) -->
                 <!--
                 <div class="mb-4">
@@ -136,7 +136,7 @@
                 -->
 
                 <!-- Filters -->
-                <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-4">
                     <select class="select select-bordered select-sm w-full text-sm">
                         <option>All Styles</option>
                         <option>Traditional</option>
@@ -154,21 +154,21 @@
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="flex gap-2 mb-4">
+                <div class="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-4">
                     <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="getCurrentLocation()" title="Use my location">
                         <i class="fas fa-location-arrow mr-1"></i>My Location
                     </button>
-                    <button class="btn btn-sm btn-outline btn-coffee" onclick="useDefaultLocation()" title="Use New York City as default location">
+                    <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="useDefaultLocation()" title="Use New York City as default location">
                         <i class="fas fa-map-marker-alt mr-1"></i>NYC
                     </button>
-                    <button class="btn btn-sm btn-outline btn-coffee" onclick="testMapboxToken()" title="Test Mapbox connection">
+                    <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="testMapboxToken()" title="Test Mapbox connection">
                         <i class="fas fa-check-circle"></i>
                     </button>
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="bg-coffee-50 rounded-lg p-3 mb-4">
-                    <h4 class="text-sm font-bold text-coffee-800 mb-2">Quick Stats</h4>
+                <div class="bg-coffee-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
+                    <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Quick Stats</h4>
                     <div class="space-y-1">
                         <div class="flex justify-between">
                             <span class="text-xs text-coffee-600">Total Cafes:</span>
@@ -186,8 +186,8 @@
                 </div>
 
                 <!-- Location Help -->
-                <div class="bg-blue-50 rounded-lg p-3 mb-4">
-                    <h4 class="text-sm font-bold text-blue-800 mb-2">📍 Location Help</h4>
+                <div class="bg-blue-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
+                    <h4 class="text-xs sm:text-sm font-bold text-blue-800 mb-1 sm:mb-2">📍 Location Help</h4>
                     <div class="space-y-1">
                         <p class="text-xs text-blue-700">Click "My Location" to find cafes near you. If location is blocked, use "NYC" for New York City.</p>
                         <p class="text-xs text-blue-600">💡 Look for the location icon in your browser's address bar to allow access.</p>
@@ -196,7 +196,7 @@
 
                 <!-- Legend -->
                 <div>
-                    <h4 class="text-sm font-bold text-coffee-800 mb-2">Legend</h4>
+                    <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Legend</h4>
                     <div class="space-y-1">
                         <div class="flex items-center gap-2">
                             <div class="w-2 h-2 rounded-full bg-red-500"></div>
@@ -224,9 +224,9 @@
         </div>
 
         <!-- Map Title Overlay (Bottom Right) -->
-        <div class="absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-3">
+        <div class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-2 sm:p-3">
             <div class="text-center">
-                <h2 class="text-lg font-bold text-coffee-800">DCNYC</h2>
+                <h2 class="text-base sm:text-lg font-bold text-coffee-800">DCNYC</h2>
                 <p class="text-xs text-coffee-600">New York Flat White Reviews</p>
                 <button class="btn btn-xs btn-ghost mt-1 text-xs">
                     Featured in Bloomberg

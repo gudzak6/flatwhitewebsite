@@ -39,19 +39,19 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="navbar bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50">
-        <div class="navbar-start">
+    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-2 sm:px-0">
+        <div class="navbar-start flex flex-col sm:flex-row items-center gap-2 py-2 sm:py-0">
             <div class="flex items-center gap-2">
                 <i class="fas fa-coffee text-2xl text-coffee-300"></i>
                 <a href="index.html" class="text-xl font-bold">Flat White Finder</a>
             </div>
         </div>
-        <div class="navbar-end">
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="link link-hover">Map</a>
-                <a href="library.html" class="link link-hover font-semibold">Library</a>
-                <a href="about.html" class="link link-hover">About</a>
-                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0" onclick="openAddCafeModal()">
+        <div class="navbar-end flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                <a href="index.html" class="link link-hover w-full sm:w-auto text-center">Map</a>
+                <a href="library.html" class="link link-hover font-semibold w-full sm:w-auto text-center">Library</a>
+                <a href="about.html" class="link link-hover w-full sm:w-auto text-center">About</a>
+                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto" onclick="openAddCafeModal()">
                     <i class="fas fa-plus"></i> Add Cafe
                 </button>
             </div>
@@ -59,36 +59,36 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-20">
+    <section class="hero min-h-[30vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-24 sm:pt-16">
         <div class="hero-content text-center">
-            <div class="max-w-4xl mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
+            <div class="max-w-md sm:max-w-4xl mx-auto px-2 sm:px-4">
+                <h2 class="text-xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
                     Coffee Library
                 </h2>
-                <p class="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
+                <p class="text-sm sm:text-lg mb-4 sm:mb-8 opacity-90 max-w-xs sm:max-w-2xl mx-auto">
                     Browse all cafes and reviews in our comprehensive collection.
                 </p>
-                <div class="stats shadow bg-coffee-800/50 backdrop-blur-sm rounded-xl p-6">
-                    <div class="stat">
+                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-2 sm:p-6">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-store text-2xl"></i>
+                            <i class="fas fa-store text-base sm:text-2xl"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-sm">Total Cafes</div>
-                        <div class="stat-value text-coffee-300 text-2xl" id="totalCafes">0</div>
+                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Total Cafes</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="totalCafes">0</div>
                     </div>
-                    <div class="stat">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-star text-2xl"></i>
+                            <i class="fas fa-star text-base sm:text-2xl"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-sm">Total Reviews</div>
-                        <div class="stat-value text-coffee-300 text-2xl" id="totalReviews">0</div>
+                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Total Reviews</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="totalReviews">0</div>
                     </div>
-                    <div class="stat">
+                    <div class="stat w-full sm:w-auto">
                         <div class="stat-figure text-coffee-300">
-                            <i class="fas fa-heart text-2xl"></i>
+                            <i class="fas fa-heart text-base sm:text-2xl"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-sm">Avg Rating</div>
-                        <div class="stat-value text-coffee-300 text-2xl" id="avgRating">0.0</div>
+                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Avg Rating</div>
+                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="avgRating">0.0</div>
                     </div>
                 </div>
             </div>
@@ -96,11 +96,11 @@
     </section>
 
     <!-- Library Section -->
-    <section class="py-16 bg-coffee-50">
-        <div class="container mx-auto px-4">
+    <section class="py-8 sm:py-16 bg-coffee-50">
+        <div class="container mx-auto px-2 sm:px-4">
             <!-- Search and Filter -->
-            <div class="mb-8">
-                <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="mb-6 sm:mb-8">
+                <div class="flex flex-col md:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6">
                     <div class="flex-1">
                         <div class="join w-full">
                             <input type="text" id="searchInput" placeholder="Search cafes..." class="input input-bordered join-item flex-1" />
@@ -109,15 +109,15 @@
                             </button>
                         </div>
                     </div>
-                    <div class="flex gap-2">
-                        <select id="ratingFilter" class="select select-bordered" onchange="filterCafes()">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <select id="ratingFilter" class="select select-bordered w-full sm:w-auto" onchange="filterCafes()">
                             <option value="">All Ratings</option>
                             <option value="4.5">4.5+ Stars</option>
                             <option value="4.0">4.0+ Stars</option>
                             <option value="3.5">3.5+ Stars</option>
                             <option value="3.0">3.0+ Stars</option>
                         </select>
-                        <select id="sortBy" class="select select-bordered" onchange="sortCafes()">
+                        <select id="sortBy" class="select select-bordered w-full sm:w-auto" onchange="sortCafes()">
                             <option value="name">Sort by Name</option>
                             <option value="rating">Sort by Rating</option>
                             <option value="reviews">Sort by Reviews</option>
@@ -127,20 +127,20 @@
             </div>
 
             <!-- Cafes Grid -->
-            <div id="cafesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="cafesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <!-- Cafes will be loaded here -->
             </div>
 
             <!-- Loading State -->
-            <div id="loadingState" class="text-center py-12">
+            <div id="loadingState" class="text-center py-8 sm:py-12">
                 <div class="loading loading-spinner loading-lg text-coffee-600"></div>
                 <p class="text-coffee-700 mt-4">Loading cafes...</p>
             </div>
 
             <!-- Empty State -->
-            <div id="emptyState" class="text-center py-12 hidden">
-                <i class="fas fa-coffee text-6xl text-coffee-300 mb-4"></i>
-                <h3 class="text-xl font-semibold text-coffee-800 mb-2">No cafes found</h3>
+            <div id="emptyState" class="text-center py-8 sm:py-12 hidden">
+                <i class="fas fa-coffee text-5xl sm:text-6xl text-coffee-300 mb-4"></i>
+                <h3 class="text-lg sm:text-xl font-semibold text-coffee-800 mb-2">No cafes found</h3>
                 <p class="text-coffee-600">Try adjusting your search or filters.</p>
             </div>
         </div>
@@ -148,7 +148,7 @@
 
     <!-- Add Cafe Modal -->
     <dialog id="addCafeModal" class="modal">
-        <div class="modal-box max-w-2xl">
+        <div class="modal-box max-w-lg w-full">
             <h3 class="font-bold text-lg mb-4">Add New Cafe</h3>
             <form id="addCafeForm" onsubmit="submitCafe(event)">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -178,8 +178,8 @@
                     <textarea id="cafeHours" class="textarea textarea-bordered" placeholder="e.g., Mon-Fri: 7AM-6PM, Sat-Sun: 8AM-7PM"></textarea>
                 </div>
                 <div class="modal-action">
-                    <button type="button" class="btn" onclick="closeAddCafeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Cafe</button>
+                    <button type="button" class="btn w-full sm:w-auto" onclick="closeAddCafeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-full sm:w-auto">Add Cafe</button>
                 </div>
             </form>
         </div>
@@ -187,13 +187,13 @@
 
     <!-- Cafe Details Modal -->
     <dialog id="cafeModal" class="modal">
-        <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
+        <div class="modal-box max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <!-- Header with cafe name prominently displayed -->
             <div class="sticky top-0 bg-base-100 pb-4 border-b border-base-300">
-                <div class="flex justify-between items-start mb-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
                     <div class="flex-1">
-                        <h2 id="cafeName" class="font-bold text-3xl text-coffee-800 mb-2">Cafe Name</h2>
-                        <div class="flex items-center gap-4">
+                        <h2 id="cafeName" class="font-bold text-2xl sm:text-3xl text-coffee-800 mb-2">Cafe Name</h2>
+                        <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                             <div class="rating rating-md">
                                 <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked disabled />
                                 <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked disabled />
@@ -201,7 +201,7 @@
                                 <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked disabled />
                                 <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked disabled />
                             </div>
-                            <div class="text-xl font-bold text-coffee-800" id="cafeScore">4.5</div>
+                            <div class="text-lg sm:text-xl font-bold text-coffee-800" id="cafeScore">4.5</div>
                             <div class="text-sm text-gray-600" id="reviewCount">(24 reviews)</div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
             
             <div class="space-y-6 pt-4">
                 <!-- Cafe Details -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                         <h3 class="font-semibold text-coffee-800 mb-2">Location</h3>
                         <p id="cafeAddress" class="text-gray-700">123 Coffee Street, New York, NY</p>
@@ -227,9 +227,9 @@
 
                 <!-- Reviews Section -->
                 <div>
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
                         <h3 class="font-semibold text-coffee-800">Reviews</h3>
-                        <button class="btn btn-sm btn-coffee" onclick="openReviewForm()">
+                        <button class="btn btn-sm btn-coffee w-full sm:w-auto" onclick="openReviewForm()">
                             <i class="fas fa-plus mr-1"></i>Add Review
                         </button>
                     </div>
@@ -243,7 +243,7 @@
 
     <!-- Review Form Modal -->
     <dialog id="reviewModal" class="modal">
-        <div class="modal-box max-w-2xl">
+        <div class="modal-box max-w-lg w-full">
             <h3 class="font-bold text-lg mb-4">Add Review</h3>
             <form id="reviewForm" onsubmit="submitReview(event)">
                 <div class="form-control mb-4">
@@ -271,8 +271,8 @@
                     <textarea id="reviewText" class="textarea textarea-bordered h-24" required></textarea>
                 </div>
                 <div class="modal-action">
-                    <button type="button" class="btn" onclick="closeReviewModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                    <button type="button" class="btn w-full sm:w-auto" onclick="closeReviewModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-full sm:w-auto">Submit Review</button>
                 </div>
             </form>
         </div>

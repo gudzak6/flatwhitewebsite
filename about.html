@@ -35,19 +35,19 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="navbar bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50">
-        <div class="navbar-start">
+    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-2 sm:px-0">
+        <div class="navbar-start flex flex-col sm:flex-row items-center gap-2 py-2 sm:py-0">
             <div class="flex items-center gap-2">
                 <i class="fas fa-coffee text-2xl text-coffee-300"></i>
                 <h1 class="text-xl font-bold">Flat White Finder</h1>
             </div>
         </div>
-        <div class="navbar-end">
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="link link-hover">Home</a>
-                <a href="index.html#map" class="link link-hover">Map</a>
-                <a href="about.html" class="link link-hover font-semibold text-amber-300">About</a>
-                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0" onclick="window.location.href='index.html'">
+        <div class="navbar-end flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                <a href="index.html" class="link link-hover w-full sm:w-auto text-center">Home</a>
+                <a href="index.html#map" class="link link-hover w-full sm:w-auto text-center">Map</a>
+                <a href="about.html" class="link link-hover font-semibold text-amber-300 w-full sm:w-auto text-center">About</a>
+                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto" onclick="window.location.href='index.html'">
                     <i class="fas fa-plus"></i> Add Cafe
                 </button>
             </div>
@@ -55,13 +55,13 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero min-h-screen bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-20">
+    <section class="hero min-h-[30vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-24 sm:pt-16">
         <div class="hero-content text-center">
-            <div class="max-w-4xl mx-auto px-4">
-                <h2 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
+            <div class="max-w-md sm:max-w-3xl mx-auto px-2 sm:px-4">
+                <h2 class="text-xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
                     ☕ About Best Flat White
                 </h2>
-                <p class="text-xl mb-12 opacity-90 max-w-2xl mx-auto">
+                <p class="text-sm sm:text-lg mb-4 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
                     Welcome to Best Flat White — your map to the perfect cup.
                 </p>
             </div>
@@ -69,46 +69,46 @@
     </section>
 
     <!-- About Content -->
-    <section class="py-16 bg-gradient-to-br from-coffee-50 to-coffee-100">
-        <div class="container mx-auto px-4">
+    <section class="py-8 sm:py-16 bg-gradient-to-br from-coffee-50 to-coffee-100">
+        <div class="container mx-auto px-2 sm:px-4">
             <div class="max-w-4xl mx-auto">
                 <!-- Mission Statement -->
-                <div class="card bg-white shadow-lg mb-8">
+                <div class="card bg-white shadow-lg mb-6 sm:mb-8">
                     <div class="card-body">
-                        <p class="text-lg text-coffee-700 leading-relaxed">
+                        <p class="text-base sm:text-lg text-coffee-700 leading-relaxed">
                             We're on a mission to find the smoothest, creamiest, most well-balanced flat whites in the city — and we need your help.
                         </p>
-                        <p class="text-lg text-coffee-700 leading-relaxed mt-4">
+                        <p class="text-base sm:text-lg text-coffee-700 leading-relaxed mt-2 sm:mt-4">
                             This site is built by coffee lovers, for coffee lovers. Whether you're a seasoned barista, a specialty café regular, or just someone who appreciates a well-poured drink, this map helps you discover (and rate!) the best spots for a flat white near you.
                         </p>
                     </div>
                 </div>
 
                 <!-- What We Do -->
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
                     <div class="card bg-white shadow-lg">
                         <div class="card-body">
-                            <h3 class="text-2xl font-bold text-coffee-800 mb-4 flex items-center">
+                            <h3 class="text-lg sm:text-2xl font-bold text-coffee-800 mb-2 sm:mb-4 flex items-center">
                                 🔎 What We Do
                             </h3>
-                            <p class="text-coffee-700 mb-4">
+                            <p class="text-coffee-700 mb-2 sm:mb-4">
                                 We crowdsource and curate the top places serving flat whites — using:
                             </p>
-                            <ul class="space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <span class="text-coffee-600 text-xl">📍</span>
+                            <ul class="space-y-2 sm:space-y-3">
+                                <li class="flex items-start gap-2 sm:gap-3">
+                                    <span class="text-coffee-600 text-lg sm:text-xl">📍</span>
                                     <span class="text-coffee-700">An interactive map to explore cafés by location</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="text-coffee-600 text-xl">⭐</span>
+                                <li class="flex items-start gap-2 sm:gap-3">
+                                    <span class="text-coffee-600 text-lg sm:text-xl">⭐</span>
                                     <span class="text-coffee-700">User ratings to surface local favorites</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="text-coffee-600 text-xl">📝</span>
+                                <li class="flex items-start gap-2 sm:gap-3">
+                                    <span class="text-coffee-600 text-lg sm:text-xl">📝</span>
                                     <span class="text-coffee-700">Reviews to highlight what makes each flat white worth the visit</span>
                                 </li>
                             </ul>
-                            <p class="text-coffee-700 mt-4 italic">
+                            <p class="text-coffee-700 mt-2 sm:mt-4 italic">
                                 We're not here for every coffee shop. Just the ones that take their espresso, milk texture, and vibe seriously.
                             </p>
                         </div>
@@ -116,7 +116,7 @@
 
                     <div class="card bg-white shadow-lg">
                         <div class="card-body">
-                            <h3 class="text-2xl font-bold text-coffee-800 mb-4 flex items-center">
+                            <h3 class="text-lg sm:text-2xl font-bold text-coffee-800 mb-2 sm:mb-4 flex items-center">
                                 🎯 Why Flat Whites?
                             </h3>
                             <p class="text-coffee-700 leading-relaxed">
@@ -127,52 +127,52 @@
                 </div>
 
                 <!-- How You Can Help -->
-                <div class="card bg-gradient-to-r from-coffee-600 to-coffee-700 text-white mb-12">
+                <div class="card bg-gradient-to-r from-coffee-600 to-coffee-700 text-white mb-8 sm:mb-12">
                     <div class="card-body">
-                        <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <h3 class="text-lg sm:text-2xl font-bold mb-2 sm:mb-4 flex items-center">
                             🙌 How You Can Help
                         </h3>
-                        <div class="grid md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                             <div class="text-center">
-                                <div class="text-3xl mb-2">⭐</div>
-                                <p>Rate your favorite spots (or ones that missed the mark)</p>
+                                <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">⭐</div>
+                                <p class="text-sm sm:text-base">Rate your favorite spots (or ones that missed the mark)</p>
                             </div>
                             <div class="text-center">
-                                <div class="text-3xl mb-2">📝</div>
-                                <p>Leave a quick review to help others discover hidden gems</p>
+                                <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">📝</div>
+                                <p class="text-sm sm:text-base">Leave a quick review to help others discover hidden gems</p>
                             </div>
                             <div class="text-center">
-                                <div class="text-3xl mb-2">🗺️</div>
-                                <p>Share the map with fellow flat white lovers</p>
+                                <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">🗺️</div>
+                                <p class="text-sm sm:text-base">Share the map with fellow flat white lovers</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- What's Next -->
-                <div class="card bg-white shadow-lg mb-8">
+                <div class="card bg-white shadow-lg mb-6 sm:mb-8">
                     <div class="card-body">
-                        <h3 class="text-2xl font-bold text-coffee-800 mb-4 flex items-center">
+                        <h3 class="text-lg sm:text-2xl font-bold text-coffee-800 mb-2 sm:mb-4 flex items-center">
                             ☕ What's Next?
                         </h3>
-                        <p class="text-coffee-700 mb-4">
+                        <p class="text-coffee-700 mb-2 sm:mb-4">
                             We're exploring:
                         </p>
-                        <ul class="space-y-3 mb-6">
-                            <li class="flex items-start gap-3">
+                        <ul class="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                            <li class="flex items-start gap-2 sm:gap-3">
                                 <span class="text-coffee-600">•</span>
                                 <span class="text-coffee-700">Flat White Crawls (guided routes with top-rated stops)</span>
                             </li>
-                            <li class="flex items-start gap-3">
+                            <li class="flex items-start gap-2 sm:gap-3">
                                 <span class="text-coffee-600">•</span>
                                 <span class="text-coffee-700">Collaborations with local cafés</span>
                             </li>
-                            <li class="flex items-start gap-3">
+                            <li class="flex items-start gap-2 sm:gap-3">
                                 <span class="text-coffee-600">•</span>
                                 <span class="text-coffee-700">Events for coffee nerds and casual drinkers alike</span>
                             </li>
                         </ul>
-                        <p class="text-coffee-700">
+                        <p class="text-coffee-700 text-sm sm:text-base">
                             If you've got an idea, want to collaborate, or just want to say hi — 
                             <a href="mailto:hello@bestflatwhite.com" class="text-coffee-600 hover:text-coffee-800 underline font-semibold">get in touch here</a>.
                         </p>
@@ -181,7 +181,7 @@
 
                 <!-- Call to Action -->
                 <div class="text-center">
-                    <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 text-lg px-8 py-3" onclick="window.location.href='index.html#map'">
+                    <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 text-base sm:text-lg px-4 sm:px-8 py-2 sm:py-3 w-full sm:w-auto" onclick="window.location.href='index.html#map'">
                         <i class="fas fa-map-marker-alt mr-2"></i>
                         Explore the Map
                     </button>
@@ -191,14 +191,14 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer footer-center p-10 bg-coffee-900 text-coffee-100">
-        <div class="grid grid-flow-col gap-4">
+    <footer class="footer footer-center p-6 sm:p-10 bg-coffee-900 text-coffee-100">
+        <div class="grid grid-cols-1 sm:grid-flow-col gap-4">
             <div class="text-center">
-                <h4 class="text-xl font-bold text-coffee-300 mb-2">Flat White Finder</h4>
-                <p class="text-coffee-200">Discovering the best flat whites in your city, one cup at a time.</p>
+                <h4 class="text-lg sm:text-xl font-bold text-coffee-300 mb-1 sm:mb-2">Flat White Finder</h4>
+                <p class="text-coffee-200 text-sm sm:text-base">Discovering the best flat whites in your city, one cup at a time.</p>
             </div>
             <div class="text-center">
-                <h4 class="text-lg font-semibold text-coffee-300 mb-2">Quick Links</h4>
+                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Quick Links</h4>
                 <div class="flex flex-col gap-1">
                     <a href="index.html" class="link link-hover text-coffee-200">Home</a>
                     <a href="index.html#map" class="link link-hover text-coffee-200">Map</a>
@@ -206,23 +206,23 @@
                 </div>
             </div>
             <div class="text-center">
-                <h4 class="text-lg font-semibold text-coffee-300 mb-2">Connect</h4>
-                <div class="flex gap-4 justify-center">
+                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Connect</h4>
+                <div class="flex gap-2 sm:gap-4 justify-center">
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-twitter text-xl"></i>
+                        <i class="fab fa-twitter text-lg sm:text-xl"></i>
                     </a>
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-instagram text-xl"></i>
+                        <i class="fab fa-instagram text-lg sm:text-xl"></i>
                     </a>
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-facebook text-xl"></i>
+                        <i class="fab fa-facebook text-lg sm:text-xl"></i>
                     </a>
                 </div>
             </div>
         </div>
         <div class="divider border-coffee-700"></div>
         <div class="text-center">
-            <p class="text-coffee-300">&copy; 2024 Flat White Finder. Made with <i class="fas fa-heart text-red-400"></i> for coffee lovers.</p>
+            <p class="text-coffee-300 text-xs sm:text-base">&copy; 2024 Flat White Finder. Made with <i class="fas fa-heart text-red-400"></i> for coffee lovers.</p>
         </div>
     </footer>
 
