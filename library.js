@@ -53,7 +53,6 @@ async function loadCafes() {
         console.error('Error loading cafes:', error);
         document.getElementById('loadingState').classList.add('hidden');
         document.getElementById('emptyState').classList.remove('hidden');
-        showToast('Error loading cafes. Please try again.', 'error');
     }
 }
 
@@ -162,7 +161,6 @@ function searchCafes() {
     }
     
     displayCafes();
-    showToast(`Found ${filteredCafes.length} cafes`, 'info');
 }
 
 // Filter cafes by rating
@@ -602,28 +600,6 @@ async function geocodeAddress(address) {
         // Return default NYC coordinates
         return [-74.006, 40.7128];
     }
-}
-
-// Show toast notification
-function showToast(message, type = 'success') {
-    const container = document.getElementById('toastContainer');
-    
-    const toast = document.createElement('div');
-    toast.className = `alert alert-${type} shadow-lg mb-2 max-w-sm`;
-    toast.innerHTML = `
-        <div>
-            <span>${message}</span>
-        </div>
-    `;
-    
-    container.appendChild(toast);
-    
-    // Remove toast after 3 seconds
-    setTimeout(() => {
-        if (toast.parentNode) {
-            toast.parentNode.removeChild(toast);
-        }
-    }, 3000);
 }
 
 // Setup event listeners

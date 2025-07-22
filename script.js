@@ -270,7 +270,6 @@ function initializeMap() {
     // Check if token is set
     if (mapboxgl.accessToken === 'YOUR_MAPBOX_ACCESS_TOKEN_HERE') {
         console.error('Please set your Mapbox access token in config.js');
-        showToast('Mapbox token not configured. Please add your access token to config.js', 'error');
         return;
     }
     
@@ -338,7 +337,7 @@ async function loadCafes() {
             return;
         }
         
-        showToast('Loading cafes from database...', 'info');
+        console.log('Loading cafes from database...');
         const databaseCafes = await window.getCafesFromDatabase();
         
         console.log('Database cafes loaded:', databaseCafes.length);
@@ -348,11 +347,11 @@ async function loadCafes() {
             // TEMPORARY: Force use sample data to see all 16 cafes
             console.log('Database has cafes, but forcing use of sample data for testing');
             cafes = [...sampleCafes];
-            showToast(`Loaded ${cafes.length} cafes from sample data (overriding database)`, 'success');
+            console.log(`Loaded ${cafes.length} cafes from sample data (overriding database)`);
         } else {
             // If no cafes in database, use sample data and save to database
             cafes = [...sampleCafes];
-            showToast('No cafes found in database, using sample data', 'info');
+            console.log('No cafes found in database, using sample data');
             
             console.log('Saving sample cafes to database...');
             // Save sample cafes to database
@@ -372,6 +371,11 @@ async function loadCafes() {
         updateTrendingSpot();
     } catch (error) {
         console.error('Error loading cafes:', error);
+        console.error('Error details:', {
+            message: error.message,
+            code: error.code,
+            stack: error.stack
+        });
         showToast('Error loading cafes, using sample data', 'error');
         cafes = [...sampleCafes];
         addCafeMarkers();
@@ -830,7 +834,7 @@ function getCurrentLocation() {
         return;
     }
     
-    showToast('Requesting location permission...', 'info');
+    console.log('Requesting location permission...');
     
     // Try to get location directly first
     requestLocation();
@@ -884,7 +888,7 @@ function requestLocation() {
                 zoom: 14
             });
             
-            showToast('Location updated! Found your position.', 'success');
+            console.log('Location updated! Found your position.');
             
             // Update map stats
             updateMapStats();
@@ -964,11 +968,11 @@ function searchCafes(query) {
             });
         }
         
-        showToast(`Found ${filteredCafes.length} cafes`, 'success');
+        console.log(`Found ${filteredCafes.length} cafes`);
     } else {
         // Show all cafes if no results
         addCafeMarkers();
-        showToast('No cafes found', 'error');
+        console.log('No cafes found');
     }
 }
 
@@ -1269,7 +1273,7 @@ function useDefaultLocation() {
         zoom: 12
     });
     
-    showToast('Using New York City as default location', 'info');
+    console.log('Using New York City as default location');
     
     // Update map stats
     updateMapStats();
@@ -1580,8 +1584,7 @@ async function updateDatabaseWithAllCafes() {
     }
     
     try {
-        showToast('Updating database with all 16 cafes...', 'info');
-        console.log('Starting database update...');
+        console.log('Updating database with all 16 cafes...');
         
         // Get all existing cafes
         const existingCafes = await window.getCafesFromDatabase();
@@ -1637,7 +1640,7 @@ async function addMissingCafes() {
     }
     
     try {
-        showToast('Adding missing cafes to database...', 'info');
+        console.log('Adding missing cafes to database...');
         
         // Get current cafes from database
         const existingCafes = await window.getCafesFromDatabase();

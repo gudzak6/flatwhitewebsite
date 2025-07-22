@@ -185,35 +185,6 @@
     @apply inline-block w-5 h-5 border-2 border-coffee-200 border-t-coffee-600 rounded-full animate-spin;
 }
 
-/* Toast enhancements */
-.toast {
-    @apply fixed top-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-white font-medium max-w-sm;
-    animation: slideInRight 0.3s ease-out;
-}
-
-.toast.error {
-    @apply bg-red-500;
-}
-
-.toast.success {
-    @apply bg-green-500;
-}
-
-.toast.info {
-    @apply bg-blue-500;
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
 /* User location marker */
 .user-location-marker {
     @apply animate-pulse;
