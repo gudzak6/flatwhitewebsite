@@ -105,6 +105,40 @@
         </div>
     </section>
 
+    <!-- Trending Spot of the Week -->
+    <section class="py-8 sm:py-12 bg-gradient-to-br from-coffee-50 to-coffee-100">
+        <div class="container mx-auto px-4">
+            <div class="trending-hero">
+                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-fire text-white text-xl sm:text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center sm:text-left">
+                        <h3 class="text-lg sm:text-2xl font-bold text-coffee-800 mb-2">Blue Bottle Coffee</h3>
+                        <p class="text-sm sm:text-base text-coffee-600 mb-3">This week's trending spot for the perfect flat white</p>
+                        <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+                            <div class="flex items-center gap-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star text-sm"></i>
+                                    <i class="fas fa-star-half-alt text-sm"></i>
+                                </div>
+                                <span class="text-sm font-semibold text-coffee-700">4.6 (342 reviews)</span>
+                            </div>
+                            <button onclick="openCafeDetails('1')" class="btn btn-sm bg-coffee-600 hover:bg-coffee-700 border-0 text-white">
+                                <i class="fas fa-map-marker-alt mr-1"></i> View on Map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Map Section -->
     <section id="map" class="relative w-full h-[60vh] sm:h-screen bg-base-100">
         <!-- Full Screen Map Container -->
@@ -217,6 +251,10 @@
                         <div class="flex items-center gap-2">
                             <div class="w-2 h-2 rounded-full bg-blue-500"></div>
                             <span class="text-xs text-coffee-700">Clusters</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 animate-pulse"></div>
+                            <span class="text-xs text-coffee-700">🔥 Trending Spot</span>
                         </div>
                     </div>
                 </div>

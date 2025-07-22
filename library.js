@@ -2,6 +2,8 @@
 let cafes = [];
 let filteredCafes = [];
 let selectedCafe = null;
+let currentFilter = 'all';
+let trendingCafeId = 1; // Trending cafe ID - change this weekly
 
 // Initialize the library page
 document.addEventListener('DOMContentLoaded', function() {
@@ -79,7 +81,7 @@ function displayCafes() {
 // Create a cafe card element
 function createCafeCard(cafe) {
     const card = document.createElement('div');
-    card.className = 'card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer';
+    card.className = `card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${cafe.id === trendingCafeId ? 'trending-cafe' : ''}`;
     card.onclick = () => openCafeDetails(cafe.id);
     
     // Generate star rating HTML
@@ -88,7 +90,10 @@ function createCafeCard(cafe) {
     card.innerHTML = `
         <div class="card-body">
             <div class="flex justify-between items-start mb-3">
-                <h3 class="card-title text-coffee-800 text-lg">${cafe.name}</h3>
+                <h3 class="card-title text-coffee-800 text-lg">
+                    ${cafe.name}
+                    ${cafe.id === trendingCafeId ? '<span class="trending-badge"><i class="fas fa-fire"></i> TRENDING</span>' : ''}
+                </h3>
                 <div class="badge badge-coffee">${cafe.rating.toFixed(1)}</div>
             </div>
             
@@ -642,4 +647,18 @@ function setupEventListeners() {
             }
         });
     });
+} 
+
+// Change trending cafe (call this weekly)
+function setTrendingCafe(newCafeId) {
+    trendingCafeId = newCafeId;
+    
+    // Update cafe display
+    displayCafes();
+    
+    // Update stats
+    updateStats();
+    
+    console.log(`Trending cafe changed to ID: ${trendingCafeId}`);
+    showToast(`Trending spot updated!`, 'success');
 } 

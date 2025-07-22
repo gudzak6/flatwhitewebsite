@@ -6,36 +6,24 @@ let selectedCafe = null;
 let currentRating = 0;
 let placesService = null;
 let searchTimeout = null;
+let trendingCafeId = 1; // Trending cafe ID - change this weekly
 
 // Sample cafe data (in a real app, this would come from a database)
 const sampleCafes = [
     {
         id: 1,
-        name: "SoHo",
-        address: "284 Lafayette St, 10012 New York, United States",
-        phone: "(555) 123-4567",
-        hours: "Monday - Friday: 7AM - 8PM, Saturday - Sunday: 8AM - 8PM",
-        coordinates: [-73.9954, 40.7234], // SoHo coordinates
-        rating: 4.8,
-        reviewCount: 24,
-        reviews: [
-            {
-                id: 1,
-                title: "Perfect Flat White!",
-                text: "The best flat white I've had in the city. Perfect balance of espresso and milk.",
-                rating: 5,
-                date: "2024-01-15",
-                author: "CoffeeLover"
-            },
-            {
-                id: 2,
-                title: "Great atmosphere",
-                text: "Cozy spot with excellent coffee. The flat white is creamy and smooth.",
-                rating: 4,
-                date: "2024-01-10",
-                author: "JavaJane"
-            }
-        ]
+        name: "Blue Bottle Coffee",
+        address: "450 W 15th St, New York, NY 10011",
+        coordinates: [-74.0060, 40.7407],
+        rating: 4.6,
+        reviewCount: 342,
+        hours: "7:00 AM - 7:00 PM",
+        phone: "(212) 555-0123",
+        website: "https://bluebottlecoffee.com",
+        description: "Artisanal coffee with a focus on single-origin beans and pour-over brewing methods.",
+        features: ["Pour-over", "Single-origin", "Pastries", "Outdoor seating"],
+        priceRange: "$$",
+        trending: true // This cafe is trending this week
     },
     {
         id: 2,
@@ -315,7 +303,27 @@ function initializeMap() {
         }
         // Update map stats
         updateMapStats();
+        updateTrendingSpot(); // Call this after map loads
     });
+}
+
+// Update trending spot display
+function updateTrendingSpot() {
+    const trendingCafe = cafes.find(cafe => cafe.id === trendingCafeId);
+    if (!trendingCafe) return;
+
+    const trendingSection = document.querySelector('.trending-hero');
+    if (trendingSection) {
+        const title = trendingSection.querySelector('h3');
+        const description = trendingSection.querySelector('p');
+        const rating = trendingSection.querySelector('.text-coffee-700');
+        const viewButton = trendingSection.querySelector('button');
+
+        if (title) title.textContent = trendingCafe.name;
+        if (description) description.textContent = `This week's trending spot for the perfect flat white`;
+        if (rating) rating.textContent = `${trendingCafe.rating} (${trendingCafe.reviewCount} reviews)`;
+        if (viewButton) viewButton.onclick = () => openCafeDetails(trendingCafe.id);
+    }
 }
 
 // Load cafes from Firebase database
@@ -361,6 +369,7 @@ async function loadCafes() {
         // Update the map with cafes
         addCafeMarkers();
         updateStats();
+        updateTrendingSpot();
     } catch (error) {
         console.error('Error loading cafes:', error);
         showToast('Error loading cafes, using sample data', 'error');
@@ -378,6 +387,12 @@ function addCafeMarkers(cafesToShow = cafes) {
         markerEl.className = 'custom-marker';
         markerEl.innerHTML = '<i class="fas fa-coffee"></i>';
         
+        // Add trending class if the cafe is trending
+        if (cafe.id === trendingCafeId) {
+            markerEl.classList.add('trending-marker');
+            markerEl.innerHTML = '<i class="fas fa-fire"></i>';
+        }
+
         // Create popup
         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
             <div style="text-align: center;">
@@ -451,13 +466,16 @@ function openCafeDetails(cafeId) {
         }
     }
 
-    // Update modal content
-    document.getElementById('cafeName').textContent = selectedCafe.name;
-    document.getElementById('cafeScore').textContent = selectedCafe.rating;
-    document.getElementById('cafeAddress').textContent = selectedCafe.address;
-    document.getElementById('cafeHours').textContent = selectedCafe.hours;
-    document.getElementById('cafePhone').textContent = selectedCafe.phone;
-    document.getElementById('reviewCount').textContent = `(${selectedCafe.reviewCount} reviews)`;
+            // Update modal content
+        document.getElementById('cafeName').innerHTML = `
+            ${selectedCafe.name}
+            ${selectedCafe.id === trendingCafeId ? '<span class="trending-badge"><i class="fas fa-fire"></i> TRENDING</span>' : ''}
+        `;
+        document.getElementById('cafeScore').textContent = selectedCafe.rating;
+        document.getElementById('cafeAddress').textContent = selectedCafe.address;
+        document.getElementById('cafeHours').textContent = selectedCafe.hours;
+        document.getElementById('cafePhone').textContent = selectedCafe.phone;
+        document.getElementById('reviewCount').textContent = `(${selectedCafe.reviewCount} reviews)`;
 
     // Update stars in the modal
     updateCafeModalStars(selectedCafe.rating);
@@ -465,9 +483,9 @@ function openCafeDetails(cafeId) {
     // Load reviews
     loadReviews();
 
-    // Show modal using DaisyUI
-    const modal = document.getElementById('cafeModal');
-    modal.showModal();
+            // Show modal using DaisyUI
+        const modal = document.getElementById('cafeModal');
+        modal.showModal();
 }
 
 // Update cafe modal stars
@@ -1658,4 +1676,21 @@ async function addMissingCafes() {
         console.error('Error adding missing cafes:', error);
         showToast('Error adding missing cafes. Please try again.', 'error');
     }
+} 
+
+// Change trending cafe (call this weekly)
+function setTrendingCafe(newCafeId) {
+    trendingCafeId = newCafeId;
+    
+    // Update map markers
+    addCafeMarkers();
+    
+    // Update trending spot display
+    updateTrendingSpot();
+    
+    // Update stats
+    updateStats();
+    
+    console.log(`Trending cafe changed to ID: ${trendingCafeId}`);
+    showToast(`Trending spot updated!`, 'success');
 } 
