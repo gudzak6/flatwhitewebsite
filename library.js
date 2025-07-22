@@ -79,9 +79,13 @@ function displayCafes() {
 
 // Create a cafe card element
 function createCafeCard(cafe) {
+    console.log('Creating card for cafe:', cafe.name, 'ID:', cafe.id);
+    
     const card = document.createElement('div');
     card.className = 'card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer';
     card.onclick = () => openCafeDetails(cafe.id);
+    
+    console.log('Card className:', card.className);
     
     // Generate star rating HTML
     const stars = generateStars(cafe.rating);
