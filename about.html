@@ -40,19 +40,19 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-2 sm:px-0">
-        <div class="navbar-start flex flex-col sm:flex-row items-center gap-2 py-2 sm:py-0">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-coffee text-2xl text-coffee-300"></i>
-                <h1 class="text-xl font-bold">Flat White Finder</h1>
+    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-1 sm:px-0 py-1 sm:py-0">
+        <div class="navbar-start flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-1 sm:py-0">
+            <div class="flex items-center gap-1 sm:gap-2">
+                <i class="fas fa-coffee text-lg sm:text-2xl text-coffee-300"></i>
+                <h1 class="text-base sm:text-xl font-bold">Flat White Finder</h1>
             </div>
         </div>
-        <div class="navbar-end flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
-            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
-                <a href="index.html" class="link link-hover w-full sm:w-auto text-center">Home</a>
-                <a href="index.html#map" class="link link-hover w-full sm:w-auto text-center">Map</a>
-                <a href="about.html" class="link link-hover font-semibold text-amber-300 w-full sm:w-auto text-center">About</a>
-                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto" onclick="window.location.href='index.html'">
+        <div class="navbar-end flex flex-col sm:flex-row items-center gap-1 sm:gap-4 w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-4 w-full sm:w-auto">
+                <a href="index.html" class="link link-hover w-full sm:w-auto text-center text-sm sm:text-base">Home</a>
+                <a href="index.html#map" class="link link-hover w-full sm:w-auto text-center text-sm sm:text-base">Map</a>
+                <a href="about.html" class="link link-hover font-semibold text-amber-300 w-full sm:w-auto text-center text-sm sm:text-base">About</a>
+                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto text-xs sm:text-base py-1 sm:py-2 min-h-0 h-8 sm:h-auto" onclick="window.location.href='index.html'">
                     <i class="fas fa-plus"></i> Add Cafe
                 </button>
             </div>
@@ -60,13 +60,13 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero min-h-[30vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-24 sm:pt-16">
+    <section class="hero min-h-[20vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-20 sm:pt-16">
         <div class="hero-content text-center">
-            <div class="max-w-md sm:max-w-3xl mx-auto px-2 sm:px-4">
-                <h2 class="text-xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
+            <div class="max-w-xs sm:max-w-3xl mx-auto px-1 sm:px-4">
+                <h2 class="text-base sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-4 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
                     ☕ About Best Flat White
                 </h2>
-                <p class="text-sm sm:text-lg mb-4 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
+                <p class="text-xs sm:text-lg mb-2 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
                     Welcome to Best Flat White — your map to the perfect cup.
                 </p>
             </div>
@@ -196,14 +196,14 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer footer-center p-6 sm:p-10 bg-coffee-900 text-coffee-100">
-        <div class="grid grid-cols-1 sm:grid-flow-col gap-4">
+    <footer class="footer footer-center p-4 sm:p-10 bg-coffee-900 text-coffee-100">
+        <div class="grid grid-cols-1 sm:grid-flow-col gap-2 sm:gap-4">
             <div class="text-center">
-                <h4 class="text-lg sm:text-xl font-bold text-coffee-300 mb-1 sm:mb-2">Flat White Finder</h4>
-                <p class="text-coffee-200 text-sm sm:text-base">Discovering the best flat whites in your city, one cup at a time.</p>
+                <h4 class="text-base sm:text-xl font-bold text-coffee-300 mb-1 sm:mb-2">Flat White Finder</h4>
+                <p class="text-coffee-200 text-xs sm:text-base">Discovering the best flat whites in your city, one cup at a time.</p>
             </div>
             <div class="text-center">
-                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Quick Links</h4>
+                <h4 class="text-sm sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Quick Links</h4>
                 <div class="flex flex-col gap-1">
                     <a href="index.html" class="link link-hover text-coffee-200">Home</a>
                     <a href="index.html#map" class="link link-hover text-coffee-200">Map</a>
@@ -211,16 +211,16 @@
                 </div>
             </div>
             <div class="text-center">
-                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Connect</h4>
-                <div class="flex gap-2 sm:gap-4 justify-center">
+                <h4 class="text-sm sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Connect</h4>
+                <div class="flex gap-1 sm:gap-4 justify-center">
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-twitter text-lg sm:text-xl"></i>
+                        <i class="fab fa-twitter text-base sm:text-xl"></i>
                     </a>
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-instagram text-lg sm:text-xl"></i>
+                        <i class="fab fa-instagram text-base sm:text-xl"></i>
                     </a>
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-facebook text-lg sm:text-xl"></i>
+                        <i class="fab fa-facebook text-base sm:text-xl"></i>
                     </a>
                 </div>
             </div>

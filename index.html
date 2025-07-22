@@ -50,18 +50,18 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-2 sm:px-0">
-        <div class="navbar-start flex flex-col sm:flex-row items-center gap-2 py-2 sm:py-0">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-coffee text-2xl text-coffee-300"></i>
-                <h1 class="text-xl font-bold">Flat White Finder</h1>
+    <header class="navbar flex flex-col sm:flex-row bg-gradient-to-r from-coffee-800 to-coffee-700 text-white shadow-lg fixed top-0 w-full z-50 px-1 sm:px-0 py-1 sm:py-0">
+        <div class="navbar-start flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-1 sm:py-0">
+            <div class="flex items-center gap-1 sm:gap-2">
+                <i class="fas fa-coffee text-lg sm:text-2xl text-coffee-300"></i>
+                <h1 class="text-base sm:text-xl font-bold">Flat White Finder</h1>
             </div>
         </div>
-        <div class="navbar-end flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
-            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
-                <a href="library.html" class="link link-hover w-full sm:w-auto text-center">Library</a>
-                <a href="about.html" class="link link-hover w-full sm:w-auto text-center">About</a>
-                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto" onclick="openAddCafeModal()">
+        <div class="navbar-end flex flex-col sm:flex-row items-center gap-1 sm:gap-4 w-full sm:w-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-4 w-full sm:w-auto">
+                <a href="library.html" class="link link-hover w-full sm:w-auto text-center text-sm sm:text-base">Library</a>
+                <a href="about.html" class="link link-hover w-full sm:w-auto text-center text-sm sm:text-base">About</a>
+                <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 w-full sm:w-auto text-xs sm:text-base py-1 sm:py-2 min-h-0 h-8 sm:h-auto" onclick="openAddCafeModal()">
                     <i class="fas fa-plus"></i> Add Cafe
                 </button>
             </div>
@@ -69,32 +69,32 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero min-h-[30vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-24 sm:pt-16">
+    <section class="hero min-h-[20vh] sm:min-h-[40vh] bg-gradient-to-br from-coffee-900 to-coffee-700 text-white pt-20 sm:pt-16">
         <div class="hero-content text-center">
-            <div class="max-w-md sm:max-w-3xl mx-auto px-2 sm:px-4">
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
+            <div class="max-w-xs sm:max-w-3xl mx-auto px-1 sm:px-4">
+                <h2 class="text-base sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-3 bg-gradient-to-r from-coffee-300 to-coffee-100 bg-clip-text text-transparent">
                     Discover the Best Flat Whites in Your City
                 </h2>
-                <p class="text-sm sm:text-base mb-4 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
+                <p class="text-xs sm:text-base mb-2 sm:mb-6 opacity-90 max-w-xs sm:max-w-xl mx-auto">
                     Explore coffee shops, read reviews, and find your perfect flat white.
                 </p>
-                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-2 sm:p-4">
-                    <div class="stat w-full sm:w-auto">
-                        <div class="stat-figure text-coffee-300">
+                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-1 sm:p-4">
+                    <div class="stat w-full sm:w-auto flex flex-col items-center">
+                        <div class="stat-figure text-coffee-300 mb-0.5">
                             <i class="fas fa-store text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Cafes</div>
                         <div class="stat-value text-coffee-300 text-base sm:text-lg" id="heroCafeCount">0</div>
                     </div>
-                    <div class="stat w-full sm:w-auto">
-                        <div class="stat-figure text-coffee-300">
+                    <div class="stat w-full sm:w-auto flex flex-col items-center">
+                        <div class="stat-figure text-coffee-300 mb-0.5">
                             <i class="fas fa-star text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Reviews</div>
                         <div class="stat-value text-coffee-300 text-base sm:text-lg" id="heroReviewCount">0</div>
                     </div>
-                    <div class="stat w-full sm:w-auto">
-                        <div class="stat-figure text-coffee-300">
+                    <div class="stat w-full sm:w-auto flex flex-col items-center">
+                        <div class="stat-figure text-coffee-300 mb-0.5">
                             <i class="fas fa-heart text-base sm:text-lg"></i>
                         </div>
                         <div class="stat-title text-coffee-200 text-xs">Avg Rating</div>
