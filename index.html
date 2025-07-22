@@ -140,7 +140,7 @@
     </section>
 
     <!-- Map Section -->
-    <section id="map" class="relative w-full h-[60vh] sm:h-screen bg-base-100">
+    <section id="map" class="relative w-full h-screen bg-base-100">
         <!-- Full Screen Map Container -->
         <div id="map" class="w-full h-full relative">
             <!-- Map Loading Overlay -->
@@ -152,110 +152,111 @@
             </div>
         </div>
 
-
+        <!-- Floating Filters Button (mobile only) -->
+        <button id="toggleFiltersBtn" class="fixed bottom-4 right-4 z-30 btn btn-primary btn-circle shadow-lg md:hidden" onclick="document.getElementById('searchPanel').classList.toggle('hidden')">
+            <i class="fas fa-sliders-h"></i>
+        </button>
 
         <!-- Search Panel (Google Maps Style) -->
-        <div class="absolute top-4 left-1 right-1 sm:top-20 sm:left-4 sm:w-80 z-20">
-            <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-2 sm:p-4">
-                <!-- Search Bar (Temporarily Disabled) -->
-                <!--
-                <div class="mb-4">
-                    <div class="flex gap-2">
-                        <input type="text" id="searchInput" placeholder="Search for cafes..." class="input input-bordered flex-1 text-sm" />
-                        <button id="searchBtn" class="btn btn-primary btn-sm bg-coffee-600 hover:bg-coffee-700 border-0">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                -->
-
-                <!-- Filters -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-4">
-                    <select class="select select-bordered select-sm w-full text-sm">
-                        <option>All Styles</option>
-                        <option>Traditional</option>
-                        <option>Modern</option>
-                        <option>Artisan</option>
-                        <option>Chain</option>
-                    </select>
-                    <select class="select select-bordered select-sm w-full text-sm">
-                        <option>All Ratings</option>
-                        <option>4.5+ Stars</option>
-                        <option>4.0+ Stars</option>
-                        <option>3.5+ Stars</option>
-                        <option>3.0+ Stars</option>
-                    </select>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-4">
-                    <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="getCurrentLocation()" title="Use my location">
-                        <i class="fas fa-location-arrow mr-1"></i>My Location
-                    </button>
-                    <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="useDefaultLocation()" title="Use New York City as default location">
-                        <i class="fas fa-map-marker-alt mr-1"></i>NYC
-                    </button>
-                    <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="testMapboxToken()" title="Test Mapbox connection">
-                        <i class="fas fa-check-circle"></i>
+        <div id="searchPanel" class="absolute top-4 left-1 right-1 sm:top-20 sm:left-4 sm:w-80 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-2 sm:p-4 hidden md:block">
+            <!-- Search Bar (Temporarily Disabled) -->
+            <!--
+            <div class="mb-4">
+                <div class="flex gap-2">
+                    <input type="text" id="searchInput" placeholder="Search for cafes..." class="input input-bordered flex-1 text-sm" />
+                    <button id="searchBtn" class="btn btn-primary btn-sm bg-coffee-600 hover:bg-coffee-700 border-0">
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
+            </div>
+            -->
 
-                <!-- Quick Stats -->
-                <div class="bg-coffee-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
-                    <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Quick Stats</h4>
-                    <div class="space-y-1">
-                        <div class="flex justify-between">
-                            <span class="text-xs text-coffee-600">Total Cafes:</span>
-                            <span class="text-xs font-semibold text-coffee-800" id="mapCafeCount">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-xs text-coffee-600">Avg Rating:</span>
-                            <span class="text-xs font-semibold text-coffee-800" id="mapAvgRating">0.0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-xs text-coffee-600">Near You:</span>
-                            <span class="text-xs font-semibold text-coffee-800" id="mapNearCount">0</span>
-                        </div>
+            <!-- Filters -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-4">
+                <select class="select select-bordered select-sm w-full text-sm">
+                    <option>All Styles</option>
+                    <option>Traditional</option>
+                    <option>Modern</option>
+                    <option>Artisan</option>
+                    <option>Chain</option>
+                </select>
+                <select class="select select-bordered select-sm w-full text-sm">
+                    <option>All Ratings</option>
+                    <option>4.5+ Stars</option>
+                    <option>4.0+ Stars</option>
+                    <option>3.5+ Stars</option>
+                    <option>3.0+ Stars</option>
+                </select>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-4">
+                <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="getCurrentLocation()" title="Use my location">
+                    <i class="fas fa-location-arrow mr-1"></i>My Location
+                </button>
+                <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="useDefaultLocation()" title="Use New York City as default location">
+                    <i class="fas fa-map-marker-alt mr-1"></i>NYC
+                </button>
+                <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="testMapboxToken()" title="Test Mapbox connection">
+                    <i class="fas fa-check-circle"></i>
+                </button>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="bg-coffee-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
+                <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Quick Stats</h4>
+                <div class="space-y-1">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-coffee-600">Total Cafes:</span>
+                        <span class="text-xs font-semibold text-coffee-800" id="mapCafeCount">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-coffee-600">Avg Rating:</span>
+                        <span class="text-xs font-semibold text-coffee-800" id="mapAvgRating">0.0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-coffee-600">Near You:</span>
+                        <span class="text-xs font-semibold text-coffee-800" id="mapNearCount">0</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Location Help -->
-                <div class="bg-blue-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
-                    <h4 class="text-xs sm:text-sm font-bold text-blue-800 mb-1 sm:mb-2">📍 Location Help</h4>
-                    <div class="space-y-1">
-                        <p class="text-xs text-blue-700">Click "My Location" to find cafes near you. If location is blocked, use "NYC" for New York City.</p>
-                        <p class="text-xs text-blue-600">💡 Look for the location icon in your browser's address bar to allow access.</p>
-                    </div>
+            <!-- Location Help -->
+            <div class="bg-blue-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
+                <h4 class="text-xs sm:text-sm font-bold text-blue-800 mb-1 sm:mb-2">📍 Location Help</h4>
+                <div class="space-y-1">
+                    <p class="text-xs text-blue-700">Click "My Location" to find cafes near you. If location is blocked, use "NYC" for New York City.</p>
+                    <p class="text-xs text-blue-600">💡 Look for the location icon in your browser's address bar to allow access.</p>
                 </div>
+            </div>
 
-                <!-- Legend -->
-                <div>
-                    <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Legend</h4>
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
-                            <span class="text-xs text-coffee-700">Excellent (4.5+)</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                            <span class="text-xs text-coffee-700">Great (4.0-4.4)</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
-                            <span class="text-xs text-coffee-700">Good (3.5-3.9)</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                            <span class="text-xs text-coffee-700">Average (3.0-3.4)</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                            <span class="text-xs text-coffee-700">Clusters</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 animate-pulse"></div>
-                            <span class="text-xs text-coffee-700">🔥 Trending Spot</span>
-                        </div>
+            <!-- Legend -->
+            <div>
+                <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Legend</h4>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                        <span class="text-xs text-coffee-700">Excellent (4.5+)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-orange-500"></div>
+                        <span class="text-xs text-coffee-700">Great (4.0-4.4)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        <span class="text-xs text-coffee-700">Good (3.5-3.9)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span class="text-xs text-coffee-700">Average (3.0-3.4)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                        <span class="text-xs text-coffee-700">Clusters</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 animate-pulse"></div>
+                        <span class="text-xs text-coffee-700">🔥 Trending Spot</span>
                     </div>
                 </div>
             </div>
@@ -486,5 +487,11 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Hide search panel by default on mobile
+        if (window.innerWidth < 768) {
+            document.getElementById('searchPanel').classList.add('hidden');
+        }
+    </script>
 </body>
 </html> 
