@@ -46,7 +46,8 @@
             <i class="fas fa-coffee text-2xl text-coffee-300"></i>
             <a href="index.html" class="text-xl font-bold">Flat White Finder</a>
         </div>
-        <nav class="flex items-center gap-6">
+        <!-- Desktop Nav -->
+        <nav class="hidden sm:flex items-center gap-6">
             <a href="index.html" class="link link-hover text-base">Map</a>
             <a href="library.html" id="libraryNavLink" class="link link-hover font-semibold text-base">Library</a>
             <a href="about.html" class="link link-hover text-base">About</a>
@@ -54,6 +55,18 @@
                 <i class="fas fa-plus mr-2"></i> Add Cafe
             </button>
         </nav>
+        <!-- Mobile Nav -->
+        <div class="sm:hidden dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-coffee-800 rounded-box w-40">
+                <li><a href="index.html" class="link link-hover">Map</a></li>
+                <li><a href="library.html" id="libraryNavLinkMobile" class="link link-hover font-semibold">Library</a></li>
+                <li><a href="about.html" class="link link-hover">About</a></li>
+                <li><a href="#" onclick="openAddCafeModal(); return false;" class="link link-hover">Add Cafe</a></li>
+            </ul>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -278,11 +291,13 @@
 
     <script src="library.js"></script>
     <script>
-  // Hide the Library link if we're on the library page
+  // Hide the Library link if we're on the library page (both desktop and mobile)
   document.addEventListener('DOMContentLoaded', function() {
     const libLink = document.getElementById('libraryNavLink');
-    if (libLink && window.location.pathname.endsWith('library.html')) {
-      libLink.style.display = 'none';
+    const libLinkMobile = document.getElementById('libraryNavLinkMobile');
+    if (window.location.pathname.endsWith('library.html')) {
+      if (libLink) libLink.style.display = 'none';
+      if (libLinkMobile) libLinkMobile.style.display = 'none';
     }
   });
 </script>
