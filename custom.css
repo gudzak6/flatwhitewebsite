@@ -411,10 +411,7 @@
     @apply shadow-md transform scale-[1.02];
 }
 
-/* Search input enhancement */
-#cafeSearchInput {
-    @apply pr-12;
-}
+
 
 /* Badge styling */
 .badge-outline {

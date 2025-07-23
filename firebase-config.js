@@ -127,7 +127,7 @@ window.addCafeToDatabase = addCafeToDatabase;
 window.getCafesFromDatabase = getCafesFromDatabase;
 window.addReviewToDatabase = addReviewToDatabase;
 window.getReviewsFromDatabase = getReviewsFromDatabase;
-window.updateCafeRating = updateCafeRating;
+window.updateCafeRating = updateCafeRating; 
 
 // Debug: Check if functions are available
 console.log('Firebase functions loaded:', {

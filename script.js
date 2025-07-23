@@ -5,7 +5,7 @@ let cafes = [];
 let selectedCafe = null;
 let currentRating = 0;
 let placesService = null;
-let searchTimeout = null;
+
 let trendingCafeId = 1; // Trending cafe ID - change this weekly
 
 // Sample cafe data (in a real app, this would come from a database)
@@ -1093,23 +1093,7 @@ function setupEventListeners() {
     }
     */
 
-    // Cafe search functionality (for add cafe modal)
-    const cafeSearchInput = document.getElementById('cafeSearchInput');
-    const searchCafeBtn = document.getElementById('searchCafeBtn');
-    
-    if (cafeSearchInput) {
-        cafeSearchInput.addEventListener('input', handleCafeSearchInput);
-        cafeSearchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchForCafes();
-            }
-        });
-    }
-    
-    if (searchCafeBtn) {
-        searchCafeBtn.addEventListener('click', searchForCafes);
-    }
+
 
     // Close modals with Escape key
     document.addEventListener('keydown', (e) => {
@@ -1189,51 +1173,7 @@ async function testMapboxToken() {
     }
 }
 
-// Handle cafe search input with debouncing
-function handleCafeSearchInput(e) {
-    const query = e.target.value.trim();
-    
-    // Clear previous timeout
-    if (searchTimeout) {
-        clearTimeout(searchTimeout);
-    }
-    
-    // Hide results if query is empty
-    if (query.length === 0) {
-        hideSearchResults();
-        return;
-    }
-    
-    // Debounce search to avoid too many API calls
-    searchTimeout = setTimeout(() => {
-        if (query.length >= 3) {
-            searchForCafes();
-        }
-    }, 500);
-}
 
-// Search for cafes using Mapbox Geocoding API
-async function searchForCafes() {
-    const query = document.getElementById('cafeSearchInput').value.trim();
-    
-    if (query.length < 3) {
-        showToast('Please enter at least 3 characters', 'error');
-        return;
-    }
-    
-    showSearchLoading();
-    
-    try {
-        // Search for cafes using Mapbox Geocoding API
-        const results = await searchCafesWithMapbox(query);
-        displaySearchResults(results);
-    } catch (error) {
-        console.error('Search error:', error);
-        // Fallback to mock data
-        const mockResults = generateMockCafeResults(query);
-        displaySearchResults(mockResults);
-    }
-}
 
 // Use default location for testing
 function useDefaultLocation() {
@@ -1295,198 +1235,11 @@ function checkGeolocationSupport() {
     return true;
 }
 
-// Search cafes using Mapbox Geocoding API
-async function searchCafesWithMapbox(query) {
-    const baseUrl = CONFIG.API.MAPBOX_GEOCODING;
-    // Improve search query to find more cafes
-    const searchTerms = ['cafe', 'coffee', 'coffee shop', 'espresso'];
-    let allResults = [];
-    
-    for (const term of searchTerms) {
-        const searchQuery = `${query} ${term}`;
-        const encodedQuery = encodeURIComponent(searchQuery);
-        const url = `${baseUrl}/${encodedQuery}.json?access_token=${mapboxgl.accessToken}&limit=10&types=poi`;
-        
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            if (data.features && data.features.length > 0) {
-                // Filter for cafe-related places
-                const cafeFeatures = data.features.filter(feature => {
-                    const category = feature.properties?.category?.toLowerCase() || '';
-                    const text = feature.text?.toLowerCase() || '';
-                    const placeName = feature.place_name?.toLowerCase() || '';
-                    
-                    return category.includes('cafe') || 
-                           category.includes('coffee') || 
-                           category.includes('food') ||
-                           text.includes('cafe') || 
-                           text.includes('coffee') ||
-                           placeName.includes('cafe') || 
-                           placeName.includes('coffee');
-                });
-                
-                allResults = allResults.concat(cafeFeatures);
-            }
-        } catch (error) {
-            console.error(`Mapbox search failed for term "${term}":`, error);
-        }
-    }
-    
-    // Remove duplicates and limit results
-    const uniqueResults = allResults.filter((result, index, self) => 
-        index === self.findIndex(r => r.id === result.id)
-    ).slice(0, 10);
-    
-    if (uniqueResults.length > 0) {
-        return uniqueResults.map((feature, index) => ({
-            name: feature.text || feature.place_name.split(',')[0],
-            address: feature.place_name,
-            phone: '', // Mapbox doesn't provide phone numbers
-            rating: 0, // Mapbox doesn't provide ratings
-            placeId: feature.id,
-            types: feature.properties?.category?.split(',') || ['cafe'],
-            coordinates: feature.center
-        }));
-    } else {
-        return [];
-    }
-}
 
-// Generate mock cafe search results
-function generateMockCafeResults(query) {
-    const mockCafes = [
-        {
-            name: `${query} Coffee Shop`,
-            address: '123 Main Street, New York, NY',
-            phone: '(555) 123-4567',
-            rating: 4.5,
-            placeId: 'mock_1',
-            types: ['cafe', 'food', 'establishment']
-        },
-        {
-            name: `${query} Cafe & Bakery`,
-            address: '456 Oak Avenue, New York, NY',
-            phone: '(555) 234-5678',
-            rating: 4.2,
-            placeId: 'mock_2',
-            types: ['cafe', 'bakery', 'food', 'establishment']
-        },
-        {
-            name: `${query} Artisan Coffee`,
-            address: '789 Pine Street, New York, NY',
-            phone: '(555) 345-6789',
-            rating: 4.8,
-            placeId: 'mock_3',
-            types: ['cafe', 'food', 'establishment']
-        }
-    ];
-    
-    return mockCafes.filter(cafe => 
-        cafe.name.toLowerCase().includes(query.toLowerCase()) ||
-        cafe.address.toLowerCase().includes(query.toLowerCase())
-    );
-}
 
-// Display search results
-function displaySearchResults(results) {
-    const resultsContainer = document.getElementById('searchResults');
-    
-    if (results.length === 0) {
-        resultsContainer.innerHTML = `
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i>
-                <span>No cafes found. Try a different search term.</span>
-            </div>
-        `;
-        resultsContainer.classList.remove('hidden');
-        return;
-    }
-    
-    const resultsHTML = results.map(cafe => `
-        <div class="card bg-base-100 shadow-sm border border-base-300 cursor-pointer hover:shadow-md transition-shadow" 
-             onclick="selectCafeFromSearch('${cafe.placeId}')">
-            <div class="card-body p-4">
-                <div class="flex justify-between items-start">
-                    <div class="flex-1">
-                        <h3 class="font-semibold text-coffee-800">${cafe.name}</h3>
-                        <p class="text-sm text-gray-600 mt-1">
-                            <i class="fas fa-map-marker-alt text-coffee-600 mr-1"></i>
-                            ${cafe.address}
-                        </p>
-                        ${cafe.phone ? `
-                            <p class="text-sm text-gray-600 mt-1">
-                                <i class="fas fa-phone text-coffee-600 mr-1"></i>
-                                ${cafe.phone}
-                            </p>
-                        ` : ''}
-                    </div>
-                    <div class="flex items-center gap-1 ml-2">
-                        <div class="rating rating-sm">
-                            ${generateDaisyUIStars(cafe.rating)}
-                        </div>
-                        <span class="text-sm font-semibold text-coffee-800">${cafe.rating}</span>
-                    </div>
-                </div>
-                <div class="flex gap-1 mt-2">
-                    ${cafe.types.slice(0, 3).map(type => 
-                        `<span class="badge badge-outline badge-sm">${type}</span>`
-                    ).join('')}
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    resultsContainer.innerHTML = resultsHTML;
-    resultsContainer.classList.remove('hidden');
-}
 
-// Show loading state for search
-function showSearchLoading() {
-    const resultsContainer = document.getElementById('searchResults');
-    resultsContainer.innerHTML = `
-        <div class="flex items-center justify-center p-4">
-            <div class="loading"></div>
-            <span class="ml-2 text-gray-600">Searching for cafes...</span>
-        </div>
-    `;
-    resultsContainer.classList.remove('hidden');
-}
 
-// Hide search results
-function hideSearchResults() {
-    const resultsContainer = document.getElementById('searchResults');
-    resultsContainer.classList.add('hidden');
-}
 
-// Select cafe from search results
-function selectCafeFromSearch(placeId) {
-    // In a real app, you would fetch detailed place information here
-    // For demo purposes, we'll use the mock data
-    const query = document.getElementById('cafeSearchInput').value.trim();
-    const mockResults = generateMockCafeResults(query);
-    const selectedCafe = mockResults.find(cafe => cafe.placeId === placeId);
-    
-    if (selectedCafe) {
-        // Fill the form with selected cafe data
-        document.getElementById('cafeNameInput').value = selectedCafe.name;
-        document.getElementById('cafeAddressInput').value = selectedCafe.address;
-        document.getElementById('cafePhoneInput').value = selectedCafe.phone || '';
-        
-        // Hide search results
-        hideSearchResults();
-        
-        // Clear search input
-        document.getElementById('cafeSearchInput').value = '';
-        
-        // Show success message
-        showToast(`Selected: ${selectedCafe.name}`, 'success');
-        
-        // Focus on hours input for user to complete
-        document.getElementById('cafeHoursInput').focus();
-    }
-}
 
 // Enhanced submit cafe function with Firebase
 async function submitCafe(event) {
