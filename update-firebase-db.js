@@ -190,27 +190,44 @@ async function updateFirebaseDatabase() {
         console.log(`📊 Current cafes in database: ${currentCafes.length}`);
         console.log('Current cafe names:', currentCafes.map(c => c.name));
         
-        // Delete all existing cafes
+        // Delete all existing cafes using batch operations
         console.log('\n🗑️  Deleting existing cafes...');
-        for (const cafe of currentCafes) {
-            try {
-                await db.collection('cafes').doc(cafe.id).delete();
-                console.log(`✓ Deleted: ${cafe.name}`);
-            } catch (error) {
-                console.error(`✗ Error deleting ${cafe.name}:`, error.message);
+        const deleteBatch = db.batch();
+        let deleteCount = 0;
+        
+        for (const doc of currentCafesSnapshot.docs) {
+            if (doc.id && doc.id.trim() !== '') {
+                deleteBatch.delete(doc.ref);
+                deleteCount++;
+            } else {
+                console.log(`⚠️  Skipping document with invalid ID: ${doc.id}`);
             }
         }
         
-        // Add all new cafes
-        console.log('\n➕ Adding all 16 cafes...');
-        for (const cafe of allCafes) {
-            try {
-                const docRef = await db.collection('cafes').add(cafe);
-                console.log(`✓ Added: ${cafe.name} (ID: ${docRef.id})`);
-            } catch (error) {
-                console.error(`✗ Error adding ${cafe.name}:`, error.message);
-            }
+        if (deleteCount > 0) {
+            await deleteBatch.commit();
+            console.log(`✓ Deleted ${deleteCount} cafes successfully`);
+        } else {
+            console.log('ℹ️  No valid documents to delete');
         }
+        
+        // Add all new cafes using batch operations
+        console.log('\n➕ Adding all 16 cafes...');
+        const addBatch = db.batch();
+        const cafeRefs = [];
+        
+        for (const cafe of allCafes) {
+            const docRef = db.collection('cafes').doc();
+            addBatch.set(docRef, cafe);
+            cafeRefs.push({ ref: docRef, name: cafe.name });
+        }
+        
+        await addBatch.commit();
+        
+        // Log the results
+        cafeRefs.forEach(({ ref, name }) => {
+            console.log(`✓ Added: ${name} (ID: ${ref.id})`);
+        });
         
         // Verify the update
         console.log('\n🔍 Verifying update...');
