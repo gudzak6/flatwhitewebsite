@@ -45,14 +45,27 @@
             <i class="fas fa-coffee text-2xl text-coffee-300"></i>
             <a href="index.html" class="text-xl font-bold">Flat White Finder</a>
         </div>
-        <nav class="flex items-center gap-6">
-            <a href="index.html" class="link link-hover text-base">Home</a>
-            <a href="index.html#map" class="link link-hover text-base">Map</a>
-            <a href="about.html" class="link link-hover font-semibold text-amber-300 text-base">About</a>
-            <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 text-base px-5 py-2 min-h-0 h-auto font-semibold" onclick="window.location.href='index.html'">
+        <!-- Desktop Nav -->
+        <nav class="hidden sm:flex items-center gap-6">
+            <a href="index.html" class="link link-hover text-base">Map</a>
+            <a href="library.html" id="libraryNavLink" class="link link-hover font-semibold text-base">Library</a>
+            <a href="about.html" class="link link-hover text-base">About</a>
+            <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 text-base px-5 py-2 min-h-0 h-auto font-semibold" onclick="openAddCafeModal()">
                 <i class="fas fa-plus mr-2"></i> Add Cafe
             </button>
         </nav>
+        <!-- Mobile Nav -->
+        <div class="sm:hidden dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-coffee-800 rounded-box w-40">
+                <li><a href="index.html" class="link link-hover">Map</a></li>
+                <li><a href="library.html" id="libraryNavLinkMobile" class="link link-hover font-semibold">Library</a></li>
+                <li><a href="about.html" class="link link-hover">About</a></li>
+                <li><a href="#" onclick="openAddCafeModal(); return false;" class="link link-hover">Add Cafe</a></li>
+            </ul>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -192,38 +205,40 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer footer-center p-4 sm:p-10 bg-coffee-900 text-coffee-100">
-        <div class="grid grid-cols-1 sm:grid-flow-col gap-2 sm:gap-4">
-            <div class="text-center">
-                <h4 class="text-base sm:text-xl font-bold text-coffee-300 mb-1 sm:mb-2">Flat White Finder</h4>
-                <p class="text-coffee-200 text-xs sm:text-base">Discovering the best flat whites in your city, one cup at a time.</p>
+    <footer class="footer p-4 sm:p-10 bg-coffee-900 text-coffee-100">
+        <div class="grid grid-cols-1 sm:grid-flow-col gap-4 text-center">
+            <div>
+                <h4 class="text-lg sm:text-xl font-bold text-coffee-300 mb-1 sm:mb-2">Flat White Finder</h4>
+                <p class="text-coffee-200 text-sm sm:text-base">Discovering the best flat whites in your city, one cup at a time.</p>
             </div>
-            <div class="text-center">
-                <h4 class="text-sm sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Quick Links</h4>
+            <div>
+                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Quick Links</h4>
                 <div class="flex flex-col gap-1">
-                    <a href="index.html" class="link link-hover text-coffee-200">Home</a>
-                    <a href="index.html#map" class="link link-hover text-coffee-200">Map</a>
-                    <a href="about.html" class="link link-hover text-coffee-200">About</a>
+                    <a href="#map" class="link link-hover text-coffee-200 text-sm sm:text-base">Map</a>
+                    <a href="about.html" class="link link-hover text-coffee-200 text-sm sm:text-base">About</a>
+                    <a href="#" onclick="openAddCafeModal()" class="link link-hover text-coffee-200 text-sm sm:text-base">Add Cafe</a>
                 </div>
             </div>
-            <div class="text-center">
-                <h4 class="text-sm sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Connect</h4>
-                <div class="flex gap-1 sm:gap-4 justify-center">
+            <div>
+                <h4 class="text-base sm:text-lg font-semibold text-coffee-300 mb-1 sm:mb-2">Connect</h4>
+                <div class="flex gap-4 justify-center">
                     <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-twitter text-base sm:text-xl"></i>
-                    </a>
-                    <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-instagram text-base sm:text-xl"></i>
-                    </a>
-                    <a href="#" class="btn btn-circle btn-ghost text-coffee-200 hover:text-coffee-300">
-                        <i class="fab fa-facebook text-base sm:text-xl"></i>
+                        <i class="fab fa-instagram text-lg sm:text-xl"></i>
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="text-center">
-            <p class="text-coffee-300 text-xs sm:text-base">&copy; 2024 Flat White Finder. Made with <i class="fas fa-heart text-red-400"></i> for coffee lovers.</p>
         </div>
     </footer>
+    <script>
+  // Hide the Library link if we're on the library page (both desktop and mobile)
+  document.addEventListener('DOMContentLoaded', function() {
+    const libLink = document.getElementById('libraryNavLink');
+    const libLinkMobile = document.getElementById('libraryNavLinkMobile');
+    if (window.location.pathname.endsWith('library.html')) {
+      if (libLink) libLink.style.display = 'none';
+      if (libLinkMobile) libLinkMobile.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html> 
