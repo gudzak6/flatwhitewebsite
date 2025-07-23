@@ -6,236 +6,8 @@ let selectedCafe = null;
 let currentRating = 0;
 let placesService = null;
 
-// Set trendingCafeId to La Cabra's id (find by name)
-const laCabraCafe = sampleCafes.find(cafe => cafe.name.toLowerCase().includes('la cabra'));
-let trendingCafeId = laCabraCafe ? laCabraCafe.id : 1; // fallback to 1 if not found
-
-// Sample cafe data (in a real app, this would come from a database)
-const sampleCafes = [
-    {
-        id: 1,
-        name: "Blue Bottle Coffee",
-        address: "450 W 15th St, New York, NY 10011",
-        coordinates: [-74.0060, 40.7407],
-        rating: 4.6,
-        reviewCount: 342,
-        hours: "7:00 AM - 7:00 PM",
-        phone: "(212) 555-0123",
-        website: "https://bluebottlecoffee.com",
-        description: "Artisanal coffee with a focus on single-origin beans and pour-over brewing methods.",
-        features: ["Pour-over", "Single-origin", "Pastries", "Outdoor seating"],
-        priceRange: "$$",
-        trending: true // This cafe is trending this week
-    },
-    {
-        id: 2,
-        name: "East Village - Bakery",
-        address: "152 2nd Ave, 10003 New York, United States",
-        phone: "(555) 234-5678",
-        hours: "Monday - Friday: 7AM - 8PM, Saturday - Sunday: 8AM - 8PM",
-        coordinates: [-73.9881, 40.7308], // East Village coordinates
-        rating: 4.5,
-        reviewCount: 18,
-        reviews: [
-            {
-                id: 3,
-                title: "Solid flat white",
-                text: "Good quality coffee, friendly staff. The flat white is consistently good.",
-                rating: 4,
-                date: "2024-01-12",
-                author: "EspressoEnthusiast"
-            }
-        ]
-    },
-    {
-        id: 3,
-        name: "Bushwick - Roastery",
-        address: "1329 Willoughby Ave Unit #161, Brooklyn, New York 11237, United States",
-        phone: "(555) 345-6789",
-        hours: "Monday - Friday: 8AM - 6PM, Saturday - Sunday: 8AM - 6PM",
-        coordinates: [-73.9072, 40.7089], // Bushwick coordinates
-        rating: 4.9,
-        reviewCount: 31,
-        reviews: [
-            {
-                id: 4,
-                title: "Artisanal perfection",
-                text: "This place takes coffee seriously. Their flat white is a work of art.",
-                rating: 5,
-                date: "2024-01-08",
-                author: "BaristaBob"
-            },
-            {
-                id: 5,
-                title: "Worth the trip",
-                text: "Came all the way from Manhattan and it was totally worth it. Amazing flat white!",
-                rating: 5,
-                date: "2024-01-05",
-                author: "CoffeeTourist"
-            }
-        ]
-    },
-    {
-        id: 4,
-        name: "Cooper Square",
-        address: "35 Cooper Sq, New York, NY 10003",
-        phone: "(555) 456-7890",
-        hours: "Monday - Friday: 7:30 AM - 4:30 PM, Saturday & Sunday: 8:00 AM - 5:00 PM",
-        coordinates: [-73.9907, 40.7289], // Cooper Square coordinates
-        rating: 4.7,
-        reviewCount: 15,
-        reviews: [
-            {
-                id: 6,
-                title: "Hidden gem",
-                text: "Great spot near Cooper Union. The flat white is perfectly balanced and the atmosphere is relaxed.",
-                rating: 5,
-                date: "2024-01-20",
-                author: "CooperStudent"
-            },
-            {
-                id: 7,
-                title: "Consistent quality",
-                text: "Been coming here for months and the coffee is always excellent. Perfect for studying.",
-                rating: 4,
-                date: "2024-01-18",
-                author: "StudyBuddy"
-            }
-        ]
-    },
-    {
-        id: 5,
-        name: "Watch House",
-        address: "660 5th Ave, New York, NY 10103, United States",
-        phone: "(555) 567-8901",
-        hours: "Monday - Friday: 7:00 AM - 6:00 PM, Saturday - Sunday: 9:00 AM - 6:30 PM",
-        coordinates: [-73.976582, 40.760182], // Watch House coordinates (Midtown East)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 6,
-        name: "Café Kitsune",
-        address: "550 Hudson Street, NY 10014, New York City",
-        phone: "+1 (646) 755-8158",
-        hours: "Monday - Wednesday: 8:00 AM - 8:00 PM, Thursday: 8:00 AM - 9:00 PM, Friday - Saturday: 8:00 AM - 10:00 PM, Sunday: 8:00 AM - 8:00 PM",
-        coordinates: [-74.005858, 40.735054], // Café Kitsune coordinates (West Village)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 7,
-        name: "Laughing Man Coffee",
-        address: "184 Duane St, New York, NY 10013",
-        phone: "(212) 680-1111",
-        hours: "Monday - Sunday: 6:00 AM - 6:00 PM",
-        coordinates: [-74.010153, 40.717227], // Laughing Man Coffee coordinates (TriBeCa)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 8,
-        name: "Le Cafe - Columbus Circle",
-        address: "250 West 57th Street, New York, NY 10107",
-        phone: "(555) 888-0001",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.982477, 40.766317], // Columbus Circle coordinates (Midtown East)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 9,
-        name: "Le Cafe - Fashion District",
-        address: "501 Seventh Avenue, New York, NY 10018",
-        phone: "(555) 888-0002",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.98856, 40.75286], // Fashion District coordinates (Garment District)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 10,
-        name: "Le Cafe - Rockefeller",
-        address: "1251 6th Avenue, New York, NY 10020",
-        phone: "(555) 888-0003",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.981771, 40.76001], // Rockefeller coordinates (Theater District)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 11,
-        name: "Le Cafe - Nomad",
-        address: "407 Park Avenue South, New York, NY 10016",
-        phone: "(555) 888-0004",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.983689, 40.743347], // Nomad coordinates (Rose Hill)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 12,
-        name: "Le Cafe - West Side",
-        address: "629 West 57th Street, New York, NY 10019",
-        phone: "(555) 888-0005",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.99254, 40.77098], // West Side coordinates (Hell's Kitchen)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 13,
-        name: "Le Cafe - Turtle Bay",
-        address: "909 3rd Avenue, New York, NY 10022",
-        phone: "(555) 888-0006",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.968076, 40.758429], // Turtle Bay coordinates (Midtown East)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 14,
-        name: "Le Cafe - Bryant Park",
-        address: "1440 Broadway, New York, NY 11221",
-        phone: "(555) 888-0007",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.919671, 40.687991], // Bryant Park coordinates (Stuyvesant Heights, Brooklyn)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 15,
-        name: "Le Cafe - Midtown East",
-        address: "661 Lexington Avenue, New York, NY 10022",
-        phone: "(555) 888-0008",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-73.969776, 40.759685], // Midtown East coordinates (Midtown East)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    },
-    {
-        id: 16,
-        name: "Le Cafe - Jersey City",
-        address: "444 Warren Street, Jersey City, NJ 07302",
-        phone: "(555) 888-0009",
-        hours: "Monday - Sunday: 7:00 AM - 8:00 PM",
-        coordinates: [-74.03734, 40.72407], // Jersey City coordinates (Exchange Place)
-        rating: 0,
-        reviewCount: 0,
-        reviews: []
-    }
-];
+// Set trendingCafeId to null initially (will be set after loading from Firebase)
+let trendingCafeId = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async function() {
@@ -332,53 +104,31 @@ async function loadCafes() {
     try {
         // Check if Firebase functions are available
         if (typeof window.getCafesFromDatabase !== 'function') {
-            console.log('Firebase not ready, using sample data');
-            cafes = [...sampleCafes];
+            console.error('Firebase not ready. Cannot load cafes.');
+            cafes = [];
             addCafeMarkers();
             await updateStats();
             return;
         }
-        
+
         console.log('Loading cafes from database...');
         const databaseCafes = await window.getCafesFromDatabase();
-        
+
         console.log('Database cafes loaded:', databaseCafes.length);
         console.log('Database cafe IDs:', databaseCafes.map(c => ({ id: c.id, name: c.name, type: typeof c.id })));
-        
-        if (databaseCafes.length > 0) {
-            // Use cafes from database
-            cafes = databaseCafes;
-            console.log(`Loaded ${cafes.length} cafes from database`);
-        } else {
-            // If no cafes in database, use sample data and save to database
-            cafes = [...sampleCafes];
-            console.log('No cafes found in database, using sample data');
-            
-            console.log('Saving sample cafes to database...');
-            // Save sample cafes to database
-            for (const cafe of sampleCafes) {
-                try {
-                    const newId = await window.addCafeToDatabase(cafe);
-                    console.log(`Saved cafe "${cafe.name}" with new ID: ${newId}`);
-                } catch (error) {
-                    console.error('Error saving sample cafe:', error);
-                }
-            }
-        }
-        
+
+        cafes = databaseCafes;
+        // Set trendingCafeId to the first cafe if available
+        trendingCafeId = cafes.length > 0 ? cafes[0].id : null;
+
         // Update the map with cafes
         addCafeMarkers();
         await updateStats();
         updateTrendingSpot();
     } catch (error) {
         console.error('Error loading cafes:', error);
-        console.error('Error details:', {
-            message: error.message,
-            code: error.code,
-            stack: error.stack
-        });
-        showToast('Error loading cafes, using sample data', 'error');
-        cafes = [...sampleCafes];
+        showToast('Error loading cafes from database', 'error');
+        cafes = [];
         addCafeMarkers();
         await updateStats();
     }

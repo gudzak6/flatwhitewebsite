@@ -48,7 +48,7 @@
         </div>
         <nav class="flex items-center gap-6">
             <a href="index.html" class="link link-hover text-base">Map</a>
-            <a href="library.html" class="link link-hover font-semibold text-base">Library</a>
+            <a href="library.html" id="libraryNavLink" class="link link-hover font-semibold text-base">Library</a>
             <a href="about.html" class="link link-hover text-base">About</a>
             <button class="btn btn-primary bg-coffee-600 hover:bg-coffee-700 border-0 text-base px-5 py-2 min-h-0 h-auto font-semibold" onclick="openAddCafeModal()">
                 <i class="fas fa-plus mr-2"></i> Add Cafe
@@ -66,27 +66,27 @@
                 <p class="text-xs sm:text-lg mb-2 sm:mb-8 opacity-90 max-w-xs sm:max-w-2xl mx-auto">
                     Browse all cafes and reviews in our comprehensive collection.
                 </p>
-                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-1 sm:p-6">
+                <div class="stats flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 shadow bg-coffee-800/50 backdrop-blur-sm rounded-lg p-1">
                     <div class="stat w-full sm:w-auto flex flex-col items-center">
                         <div class="stat-figure text-coffee-300 mb-0.5">
-                            <i class="fas fa-store text-base sm:text-2xl"></i>
+                            <i class="fas fa-store text-base"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Total Cafes</div>
-                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="totalCafes">0</div>
+                        <div class="stat-title text-coffee-200 text-xs">Total Cafes</div>
+                        <div class="stat-value text-coffee-300 text-sm" id="totalCafes">42</div>
                     </div>
                     <div class="stat w-full sm:w-auto flex flex-col items-center">
                         <div class="stat-figure text-coffee-300 mb-0.5">
-                            <i class="fas fa-star text-base sm:text-2xl"></i>
+                            <i class="fas fa-star text-base"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Total Reviews</div>
-                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="totalReviews">0</div>
+                        <div class="stat-title text-coffee-200 text-xs">Total Reviews</div>
+                        <div class="stat-value text-coffee-300 text-sm" id="totalReviews">1</div>
                     </div>
                     <div class="stat w-full sm:w-auto flex flex-col items-center">
                         <div class="stat-figure text-coffee-300 mb-0.5">
-                            <i class="fas fa-heart text-base sm:text-2xl"></i>
+                            <i class="fas fa-heart text-base"></i>
                         </div>
-                        <div class="stat-title text-coffee-200 text-xs sm:text-sm">Avg Rating</div>
-                        <div class="stat-value text-coffee-300 text-base sm:text-2xl" id="avgRating">0.0</div>
+                        <div class="stat-title text-coffee-200 text-xs">Avg Rating</div>
+                        <div class="stat-value text-coffee-300 text-sm" id="avgRating">0.5</div>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@
 
     <!-- Add Cafe Modal -->
     <dialog id="addCafeModal" class="modal">
-        <div class="modal-box max-w-lg w-full">
+        <div class="modal-box w-full max-w-xs sm:max-w-lg p-2 sm:p-6">
             <h3 class="font-bold text-lg mb-4">Add New Cafe</h3>
             <form id="addCafeForm" onsubmit="submitCafe(event)">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -185,7 +185,7 @@
 
     <!-- Cafe Details Modal -->
     <dialog id="cafeModal" class="modal">
-        <div class="modal-box max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="modal-box w-full max-w-xs sm:max-w-2xl max-h-[90vh] overflow-y-auto p-2 sm:p-6">
             <!-- Header with cafe name prominently displayed -->
             <div class="sticky top-0 bg-base-100 pb-4 border-b border-base-300">
                 <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
@@ -241,7 +241,7 @@
 
     <!-- Review Form Modal -->
     <dialog id="reviewModal" class="modal">
-        <div class="modal-box max-w-lg w-full">
+        <div class="modal-box w-full max-w-xs sm:max-w-lg p-2 sm:p-6">
             <h3 class="font-bold text-lg mb-4">Add Review</h3>
             <form id="reviewForm" onsubmit="submitReview(event)">
                 <div class="form-control mb-4">
@@ -277,5 +277,14 @@
     </dialog>
 
     <script src="library.js"></script>
+    <script>
+  // Hide the Library link if we're on the library page
+  document.addEventListener('DOMContentLoaded', function() {
+    const libLink = document.getElementById('libraryNavLink');
+    if (libLink && window.location.pathname.endsWith('library.html')) {
+      libLink.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html> 
