@@ -344,10 +344,9 @@ async function loadCafes() {
         console.log('Database cafe IDs:', databaseCafes.map(c => ({ id: c.id, name: c.name, type: typeof c.id })));
         
         if (databaseCafes.length > 0) {
-            // TEMPORARY: Force use sample data to see all 16 cafes
-            console.log('Database has cafes, but forcing use of sample data for testing');
-            cafes = [...sampleCafes];
-            console.log(`Loaded ${cafes.length} cafes from sample data (overriding database)`);
+            // Use cafes from database
+            cafes = databaseCafes;
+            console.log(`Loaded ${cafes.length} cafes from database`);
         } else {
             // If no cafes in database, use sample data and save to database
             cafes = [...sampleCafes];

@@ -157,20 +157,8 @@
             <i class="fas fa-sliders-h"></i>
         </button>
 
-        <!-- Search Panel (Google Maps Style) -->
-        <div id="searchPanel" class="absolute top-4 left-1 right-1 sm:top-20 sm:left-4 sm:w-80 z-20 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-coffee-200 p-2 sm:p-4 hidden md:block">
-            <!-- Search Bar (Temporarily Disabled) -->
-            <!--
-            <div class="mb-4">
-                <div class="flex gap-2">
-                    <input type="text" id="searchInput" placeholder="Search for cafes..." class="input input-bordered flex-1 text-sm" />
-                    <button id="searchBtn" class="btn btn-primary btn-sm bg-coffee-600 hover:bg-coffee-700 border-0">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-            -->
-
+        <!-- Search Panel (all overlays in one) -->
+        <div id="searchPanel" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm rounded-t-2xl shadow-2xl border-t border-coffee-200 p-4 hidden md:absolute md:top-4 md:left-4 md:w-80 md:rounded-lg md:shadow-lg md:border md:block md:z-20">
             <!-- Filters -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-4">
                 <select class="select select-bordered select-sm w-full text-sm">
@@ -188,7 +176,6 @@
                     <option>3.0+ Stars</option>
                 </select>
             </div>
-
             <!-- Quick Actions -->
             <div class="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-4">
                 <button class="btn btn-sm btn-outline btn-coffee flex-1" onclick="getCurrentLocation()" title="Use my location">
@@ -201,7 +188,6 @@
                     <i class="fas fa-check-circle"></i>
                 </button>
             </div>
-
             <!-- Quick Stats -->
             <div class="bg-coffee-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
                 <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Quick Stats</h4>
@@ -220,7 +206,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Location Help -->
             <div class="bg-blue-50 rounded-lg p-2 sm:p-3 mb-2 sm:mb-4">
                 <h4 class="text-xs sm:text-sm font-bold text-blue-800 mb-1 sm:mb-2">📍 Location Help</h4>
@@ -229,7 +214,6 @@
                     <p class="text-xs text-blue-600">💡 Look for the location icon in your browser's address bar to allow access.</p>
                 </div>
             </div>
-
             <!-- Legend -->
             <div>
                 <h4 class="text-xs sm:text-sm font-bold text-coffee-800 mb-1 sm:mb-2">Legend</h4>
