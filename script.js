@@ -6,7 +6,9 @@ let selectedCafe = null;
 let currentRating = 0;
 let placesService = null;
 
-let trendingCafeId = 1; // Trending cafe ID - change this weekly
+// Set trendingCafeId to La Cabra's id (find by name)
+const laCabraCafe = sampleCafes.find(cafe => cafe.name.toLowerCase().includes('la cabra'));
+let trendingCafeId = laCabraCafe ? laCabraCafe.id : 1; // fallback to 1 if not found
 
 // Sample cafe data (in a real app, this would come from a database)
 const sampleCafes = [
@@ -241,7 +243,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     initializeMap();
     await loadCafes(); // Wait for cafes to load
     setupEventListeners();
-    updateStats();
+    await updateStats();
     initializePlacesService();
     
     // Add some debugging
@@ -315,12 +317,12 @@ function updateTrendingSpot() {
     if (trendingSection) {
         const title = trendingSection.querySelector('h3');
         const description = trendingSection.querySelector('p');
-        const rating = trendingSection.querySelector('.text-coffee-700');
+        const ratingSpan = trendingSection.querySelector('.text-coffee-700');
         const viewButton = trendingSection.querySelector('button');
 
         if (title) title.textContent = trendingCafe.name;
         if (description) description.textContent = `This week's trending spot for the perfect flat white`;
-        if (rating) rating.textContent = `${trendingCafe.rating} (${trendingCafe.reviewCount} reviews)`;
+        if (ratingSpan) ratingSpan.textContent = `${trendingCafe.rating} (${trendingCafe.reviewCount} reviews)`;
         if (viewButton) viewButton.onclick = () => openCafeDetails(trendingCafe.id);
     }
 }
@@ -333,7 +335,7 @@ async function loadCafes() {
             console.log('Firebase not ready, using sample data');
             cafes = [...sampleCafes];
             addCafeMarkers();
-            updateStats();
+            await updateStats();
             return;
         }
         
@@ -366,7 +368,7 @@ async function loadCafes() {
         
         // Update the map with cafes
         addCafeMarkers();
-        updateStats();
+        await updateStats();
         updateTrendingSpot();
     } catch (error) {
         console.error('Error loading cafes:', error);
@@ -378,7 +380,7 @@ async function loadCafes() {
         showToast('Error loading cafes, using sample data', 'error');
         cafes = [...sampleCafes];
         addCafeMarkers();
-        updateStats();
+        await updateStats();
     }
 }
 
@@ -397,26 +399,30 @@ function addCafeMarkers(cafesToShow = cafes) {
         }
 
         // Create popup
-        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-            <div style="text-align: center;">
-                <h4 style="margin: 0 0 8px 0; color: #333;">${cafe.name}</h4>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 8px;">
-                    ${generateStars(cafe.rating)}
-                    <span style="font-weight: 600; color: #333;">${cafe.rating}</span>
-                    <span style="color: #666; font-size: 0.8rem;">(${cafe.reviewCount})</span>
-                </div>
-                <p style="margin: 0 0 8px 0; color: #666; font-size: 0.9rem;">${cafe.address}</p>
-                <button onclick="openCafeDetails('${cafe.id}')" style="
-                    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 0.9rem;
-                ">View Details</button>
+        const popup = new mapboxgl.Popup({ offset: 25 });
+        // Custom close button and name in a flex row
+        popup.setHTML(`
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+                <h4 style="margin: 0; color: #333; font-size: 1rem; font-weight: 600;">${cafe.name}</h4>
+                <button class="custom-popup-close" style="background: none; border: none; color: #8B4513; font-size: 1.5rem; font-weight: bold; cursor: pointer; line-height: 1; padding: 0 4px;" aria-label="Close popup">&times;</button>
             </div>
+            <button onclick="openCafeDetails('${cafe.id}')" style="
+                background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+                color: white;
+                border: none;
+                padding: 2px 6px;
+                border-radius: 3px;
+                cursor: pointer;
+                font-size: 0.7rem;
+            ">View Details</button>
         `);
+        // Add event listener for custom close button after popup is added to DOM
+        popup.on('open', () => {
+            const closeBtn = document.querySelector('.custom-popup-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => popup.remove());
+            }
+        });
 
         // Add marker to map
         new mapboxgl.Marker(markerEl)
@@ -976,9 +982,21 @@ function searchCafes(query) {
 }
 
 // Update stats
-function updateStats() {
+async function updateStats() {
     const totalCafes = cafes.length;
-    const totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+    let totalReviews = 0;
+    try {
+        if (typeof window.getAllReviewsFromDatabase === 'function') {
+            const allReviews = await window.getAllReviewsFromDatabase();
+            totalReviews = allReviews.length;
+        } else {
+            // Fallback: sum reviewCount from cafes
+            totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+        }
+    } catch (error) {
+        console.error('Error fetching all reviews:', error);
+        totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+    }
     const avgRating = cafes.length > 0 
         ? Math.round((cafes.reduce((sum, cafe) => sum + cafe.rating, 0) / cafes.length) * 10) / 10
         : 0;
@@ -1290,7 +1308,7 @@ async function submitCafe(event) {
         showToast('Cafe added successfully to database!', 'success');
         
         // Update stats
-        updateStats();
+        await updateStats();
     } catch (error) {
         console.error('Error adding cafe:', error);
         showToast('Error adding cafe to database. Please try again.', 'error');
@@ -1431,7 +1449,7 @@ async function addMissingCafes() {
 } 
 
 // Change trending cafe (call this weekly)
-function setTrendingCafe(newCafeId) {
+async function setTrendingCafe(newCafeId) {
     trendingCafeId = newCafeId;
     
     // Update map markers
@@ -1441,8 +1459,8 @@ function setTrendingCafe(newCafeId) {
     updateTrendingSpot();
     
     // Update stats
-    updateStats();
+    await updateStats();
     
-    console.log(`Trending cafe changed to ID: ${trendingCafeId}`);
+    console.log(`Trending cafe changed to ID: ${newCafeId}`);
     showToast(`Trending spot updated!`, 'success');
 } 

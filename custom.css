@@ -531,3 +531,16 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 } 
+
+.mapboxgl-popup-close-button {
+    display: none !important;
+}
+.mapboxgl-popup-close-button:hover {
+    opacity: 1;
+    color: #8B4513 !important;
+} 
+
+/* Remove the extra top padding from .mapboxgl-popup-content */
+.mapboxgl-popup-content {
+    padding-top: 1rem !important;
+} 

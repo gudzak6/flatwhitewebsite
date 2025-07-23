@@ -41,7 +41,7 @@ async function loadCafes() {
         filteredCafes = [...cafes];
         
         // Update stats
-        updateStats();
+        await updateStats();
         
         // Display cafes
         displayCafes();
@@ -209,9 +209,21 @@ function sortCafes() {
 }
 
 // Update stats
-function updateStats() {
+async function updateStats() {
     const totalCafes = cafes.length;
-    const totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+    let totalReviews = 0;
+    try {
+        if (typeof window.getAllReviewsFromDatabase === 'function') {
+            const allReviews = await window.getAllReviewsFromDatabase();
+            totalReviews = allReviews.length;
+        } else {
+            // Fallback: sum reviewCount from cafes
+            totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+        }
+    } catch (error) {
+        console.error('Error fetching all reviews:', error);
+        totalReviews = cafes.reduce((sum, cafe) => sum + cafe.reviewCount, 0);
+    }
     const avgRating = cafes.length > 0 
         ? Math.round((cafes.reduce((sum, cafe) => sum + cafe.rating, 0) / cafes.length) * 10) / 10
         : 0;

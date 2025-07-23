@@ -122,12 +122,31 @@ const updateCafeRating = async (cafeId, newRating, newReviewCount) => {
     }
 };
 
+// Fetch all reviews from the database
+const getAllReviewsFromDatabase = async () => {
+    try {
+        const querySnapshot = await db.collection("reviews").get();
+        const reviews = [];
+        querySnapshot.forEach((doc) => {
+            reviews.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        return reviews;
+    } catch (error) {
+        console.error("Error getting all reviews: ", error);
+        throw error;
+    }
+};
+
 // Make functions globally available
 window.addCafeToDatabase = addCafeToDatabase;
 window.getCafesFromDatabase = getCafesFromDatabase;
 window.addReviewToDatabase = addReviewToDatabase;
 window.getReviewsFromDatabase = getReviewsFromDatabase;
 window.updateCafeRating = updateCafeRating; 
+window.getAllReviewsFromDatabase = getAllReviewsFromDatabase;
 
 // Debug: Check if functions are available
 console.log('Firebase functions loaded:', {
