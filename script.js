@@ -1255,7 +1255,11 @@ function showTopRanked() {
 function showNearby() {
     currentTab = 'nearby';
     updateTabButtons();
-    loadNearbyCafes();
+    if (!currentLocation) {
+        requestLocation();
+    } else {
+        loadNearbyCafes();
+    }
 }
 
 function updateTabButtons() {
