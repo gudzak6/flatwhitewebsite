@@ -9,6 +9,11 @@ let placesService = null;
 // Set trendingCafeId to null initially (will be set after loading from Firebase)
 let trendingCafeId = null;
 
+// Search panel state
+let currentTab = 'top-ranked'; // 'top-ranked' or 'nearby'
+let nearbyCafes = [];
+let topRankedCafes = [];
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Initializing Flat White Finder...');
@@ -17,6 +22,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupEventListeners();
     await updateStats();
     initializePlacesService();
+    
+    // Initialize search panel with top ranked cafes
+    await loadTopRankedCafes();
     
     // Add some debugging
     console.log('Setup complete. Available functions:');
@@ -148,38 +156,52 @@ function addCafeMarkers(cafesToShow = cafes) {
             markerEl.innerHTML = '<i class="fas fa-star"></i>';
         }
 
-        // Create popup
-        const popup = new mapboxgl.Popup({ offset: 25 });
-        // Custom close button and name in a flex row
-        popup.setHTML(`
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
-                <h4 style="margin: 0; color: #333; font-size: 1rem; font-weight: 600;">${cafe.name}</h4>
-                <button class="custom-popup-close" style="background: none; border: none; color: #8B4513; font-size: 1.5rem; font-weight: bold; cursor: pointer; line-height: 1; padding: 0 4px;" aria-label="Close popup">&times;</button>
+        // Create the main details popup (on click)
+        const detailsPopup = new mapboxgl.Popup({ offset: 25 });
+        detailsPopup.setHTML(`
+            <div style="min-width:140px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;">
+                <div style="font-weight:600; color:#333; font-size:1rem;">${cafe.name}</div>
+                <div style="color:#8B4513; font-size:0.95rem;">Rating: ${cafe.rating ? cafe.rating.toFixed(1) : 'N/A'}</div>
+                <button onclick="event.stopPropagation(); openReviewModalFromMap('${cafe.id}')" style="background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white; border: none; padding: 4px 10px; border-radius: 3px; cursor: pointer; font-size: 0.9rem;">Add Review</button>
             </div>
-            <button onclick="openCafeDetails('${cafe.id}')" style="
-                background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-                color: white;
-                border: none;
-                padding: 2px 6px;
-                border-radius: 3px;
-                cursor: pointer;
-                font-size: 0.7rem;
-            ">View Details</button>
         `);
-        // Add event listener for custom close button after popup is added to DOM
-        popup.on('open', () => {
+        detailsPopup.on('open', () => {
             const closeBtn = document.querySelector('.custom-popup-close');
             if (closeBtn) {
-                closeBtn.addEventListener('click', () => popup.remove());
+                closeBtn.addEventListener('click', () => detailsPopup.remove());
             }
         });
 
         // Add marker to map
         new mapboxgl.Marker(markerEl)
             .setLngLat(cafe.coordinates)
-            .setPopup(popup)
+            .setPopup(detailsPopup)
             .addTo(map);
     });
+}
+
+// Helper to open review modal from map marker popup
+function openReviewModalFromMap(cafeId) {
+    selectedCafe = cafes.find(cafe => cafe.id === cafeId);
+    if (!selectedCafe) return;
+    // Ensure reviews is always an array
+    if (!Array.isArray(selectedCafe.reviews)) selectedCafe.reviews = [];
+    // Update modal content for review
+    const cafeNameEl = document.getElementById('reviewCafeName');
+    if (cafeNameEl) {
+        cafeNameEl.textContent = selectedCafe.name;
+    } else {
+        console.error('reviewCafeName element not found in DOM!');
+    }
+    // (Removed rating block logic)
+    document.getElementById('cafeScore').textContent = selectedCafe.rating ? selectedCafe.rating.toFixed(1) : 'N/A';
+    document.getElementById('reviewCount').textContent = `(${selectedCafe.reviewCount || 0} reviews)`;
+    document.getElementById('cafeAddress').textContent = selectedCafe.address;
+    document.getElementById('cafePhone').textContent = selectedCafe.phone || 'No phone available';
+    document.getElementById('cafeHours').textContent = selectedCafe.hours || 'Hours not available';
+    updateCafeModalStars(selectedCafe.rating);
+    // Open the review modal directly
+    openReviewForm();
 }
 
 // Generate star rating HTML
@@ -507,6 +529,7 @@ async function submitReview(event) {
         
         // Add review to local cafe object
         const reviewWithId = { ...newReview, id: Date.now() };
+        if (!Array.isArray(selectedCafe.reviews)) selectedCafe.reviews = [];
         selectedCafe.reviews.push(reviewWithId);
         
         // Update cafe rating in database
@@ -607,7 +630,7 @@ function requestLocation() {
     navigator.geolocation.getCurrentPosition(
         function(position) {
             const { latitude, longitude } = position.coords;
-            currentLocation = [longitude, latitude];
+            currentLocation = { lat: latitude, lng: longitude };
             
             console.log('Location obtained successfully:', { latitude, longitude });
             
@@ -634,12 +657,12 @@ function requestLocation() {
             `;
             
             new mapboxgl.Marker(markerEl)
-                .setLngLat(currentLocation)
+                .setLngLat([longitude, latitude])
                 .addTo(map);
             
             // Fly to user location
             map.flyTo({
-                center: currentLocation,
+                center: [longitude, latitude],
                 zoom: 14
             });
             
@@ -647,6 +670,13 @@ function requestLocation() {
             
             // Update map stats
             updateMapStats();
+            
+            // If currently on nearby tab, refresh the nearby cafes
+            if (currentTab === 'nearby') {
+                loadNearbyCafes();
+            }
+            
+            showToast('Location found! Check the "Nearby" tab for cafes close to you.', 'success');
         },
         function(error) {
             console.error('Geolocation error:', error);
@@ -1213,4 +1243,206 @@ async function setTrendingCafe(newCafeId) {
     
     console.log(`Trending cafe changed to ID: ${newCafeId}`);
     showToast(`Trending spot updated!`, 'success');
-} 
+}
+
+// Search Panel Functions
+function showTopRanked() {
+    currentTab = 'top-ranked';
+    updateTabButtons();
+    loadTopRankedCafes();
+}
+
+function showNearby() {
+    currentTab = 'nearby';
+    updateTabButtons();
+    loadNearbyCafes();
+}
+
+function updateTabButtons() {
+    const topRankedBtn = document.querySelector('button[onclick="showTopRanked()"]');
+    const nearbyBtn = document.querySelector('button[onclick="showNearby()"]');
+    
+    if (currentTab === 'top-ranked') {
+        topRankedBtn.className = 'btn btn-xs bg-coffee-600 text-white border-coffee-600 hover:bg-coffee-700';
+        nearbyBtn.className = 'btn btn-xs btn-outline border-coffee-600 text-coffee-600 hover:bg-coffee-600 hover:text-white';
+    } else {
+        topRankedBtn.className = 'btn btn-xs btn-outline border-coffee-600 text-coffee-600 hover:bg-coffee-600 hover:text-white';
+        nearbyBtn.className = 'btn btn-xs bg-coffee-600 text-white border-coffee-600 hover:bg-coffee-700';
+    }
+}
+
+async function loadTopRankedCafes() {
+    try {
+        // Sort cafes by rating (highest first) and review count
+        topRankedCafes = cafes
+            .filter(cafe => cafe.rating && cafe.reviewCount > 0)
+            .sort((a, b) => {
+                // Sort by rating first, then by review count
+                if (b.rating !== a.rating) {
+                    return b.rating - a.rating;
+                }
+                return b.reviewCount - a.reviewCount;
+            })
+            .slice(0, 10); // Get top 10
+        
+        await displayCafesInPanel(topRankedCafes, 'Top Ranked Cafes');
+    } catch (error) {
+        console.error('Error loading top ranked cafes:', error);
+        showToast('Error loading top ranked cafes', 'error');
+    }
+}
+
+async function loadNearbyCafes() {
+    try {
+        if (!currentLocation) {
+            // If no location, show message to get location
+            await displayCafesInPanel([], 'Nearby Cafes', 'Please use "My Location" to find cafes near you.');
+            return;
+        }
+
+        // Calculate distances and sort by proximity
+        nearbyCafes = cafes
+            .filter(cafe => cafe.coordinates && cafe.coordinates.length === 2)
+            .map(cafe => {
+                const distance = calculateDistance(
+                    currentLocation.lat,
+                    currentLocation.lng,
+                    cafe.coordinates[1], // lat
+                    cafe.coordinates[0]  // lng
+                );
+                return { ...cafe, distance };
+            })
+            .sort((a, b) => a.distance - b.distance)
+            .slice(0, 10); // Get closest 10
+        
+        await displayCafesInPanel(nearbyCafes, 'Nearby Cafes');
+    } catch (error) {
+        console.error('Error loading nearby cafes:', error);
+        showToast('Error loading nearby cafes', 'error');
+    }
+}
+
+async function displayCafesInPanel(cafesToShow, title, message = null) {
+    const container = document.getElementById('reviewsContainer');
+    if (!container) return;
+
+    if (message) {
+        container.innerHTML = `
+            <div class="text-center py-8">
+                <i class="fas fa-map-marker-alt text-4xl text-coffee-400 mb-4"></i>
+                <p class="text-coffee-600">${message}</p>
+            </div>
+        `;
+        return;
+    }
+
+    if (cafesToShow.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8">
+                <i class="fas fa-coffee text-4xl text-coffee-400 mb-4"></i>
+                <p class="text-coffee-600">No cafes found</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Load reviews for each cafe
+    const cafesWithReviews = await Promise.all(cafesToShow.map(async (cafe) => {
+        try {
+            const reviews = await window.getReviewsFromDatabase(cafe.id);
+            return {
+                ...cafe,
+                reviews: reviews.slice(0, 3) // Get top 3 reviews
+            };
+        } catch (error) {
+            console.error(`Error loading reviews for ${cafe.name}:`, error);
+            return {
+                ...cafe,
+                reviews: []
+            };
+        }
+    }));
+
+    container.innerHTML = cafesWithReviews.map((cafe, index) => `
+        <div class="bg-white rounded-lg p-3 shadow-sm border border-coffee-100">
+            <div class="flex-1">
+                <div class="mb-2">
+                    <h4 class="font-bold text-coffee-800">${cafe.name}</h4>
+                    <p class="text-sm text-coffee-600">${cafe.address}</p>
+                    ${cafe.distance ? `<p class="text-xs text-coffee-500">${cafe.distance.toFixed(1)} km away</p>` : ''}
+                </div>
+                ${cafe.reviews && cafe.reviews.length > 0 ? `
+                    <div class="mb-2 flex items-center gap-2">
+                        <div class="rating rating-sm">${generateStars(cafe.rating)}</div>
+                        <span class="text-coffee-700 text-sm">${cafe.rating ? cafe.rating.toFixed(1) : 'N/A'} (${cafe.reviewCount || 0} reviews)</span>
+                    </div>
+                ` : ''}
+                <!-- Top 3 Reviews or Empty State -->
+                ${cafe.reviews && cafe.reviews.length > 0 ? `
+                    <div class="mb-3">
+                        <h5 class="text-xs font-semibold text-coffee-700 mb-2">Top Reviews:</h5>
+                        <div class="space-y-2">
+                            ${cafe.reviews.map(review => `
+                                <div class="bg-coffee-50 rounded p-2">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <div class="flex text-yellow-400 text-xs">
+                                            ${generateStars(review.rating)}
+                                        </div>
+                                        <span class="text-xs text-coffee-600">${review.rating}/5</span>
+                                    </div>
+                                    <p class="text-xs text-coffee-800 mb-1">"${review.text}"</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : `
+                    <div class="mb-3 flex flex-col items-center text-center">
+                        <i class="fas fa-mug-hot text-2xl text-coffee-300 mb-1"></i>
+                        <p class="text-xs text-coffee-500 italic">No reviews yet</p>
+                        <button class="btn btn-xs btn-coffee mt-2" onclick="openReviewModalFromMap('${cafe.id}')">
+                            <i class="fas fa-star mr-1"></i>Be the first to review
+                        </button>
+                    </div>
+                `}
+                <div class="flex items-center justify-between mt-2">
+                    <button class="btn btn-xs btn-outline btn-coffee" onclick="openCafeDetails('${cafe.id}')">
+                        <i class="fas fa-eye mr-1"></i>View Details
+                    </button>
+                    ${cafe.reviews && cafe.reviews.length > 0 ? `
+                        <button class="btn btn-xs btn-coffee" onclick="openReviewModalFromMap('${cafe.id}')">
+                            <i class="fas fa-star mr-1"></i>Add Review
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c; // Distance in kilometers
+}
+
+function voteUp(cafeId) {
+    // This would integrate with your existing voting system
+    console.log('Voting up cafe:', cafeId);
+    // You can integrate this with the rankings.js voting system
+    showToast('Vote recorded!', 'success');
+}
+
+function voteDown(cafeId) {
+    // This would integrate with your existing voting system
+    console.log('Voting down cafe:', cafeId);
+    // You can integrate this with the rankings.js voting system
+    showToast('Vote recorded!', 'success');
+}
+
+ 

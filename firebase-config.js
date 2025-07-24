@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics(app);
+// const analytics = firebase.analytics(app); // Commented out to avoid analytics error
 const db = firebase.firestore(app);
 
 // Database functions
@@ -147,6 +147,7 @@ window.addReviewToDatabase = addReviewToDatabase;
 window.getReviewsFromDatabase = getReviewsFromDatabase;
 window.updateCafeRating = updateCafeRating; 
 window.getAllReviewsFromDatabase = getAllReviewsFromDatabase;
+window.db = db;
 
 // Debug: Check if functions are available
 console.log('Firebase functions loaded:', {

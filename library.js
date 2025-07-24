@@ -79,30 +79,27 @@ function displayCafes() {
 // Create a cafe card element
 function createCafeCard(cafe) {
     console.log('Creating card for cafe:', cafe.name, 'ID:', cafe.id);
-    
+
+    // Create the card element only (no hover popover)
     const card = document.createElement('div');
     card.className = 'card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer';
     card.onclick = () => openCafeDetails(cafe.id);
-    
-    console.log('Card className:', card.className);
-    
+
     // Generate star rating HTML
     const stars = generateStars(cafe.rating);
-    
+
     card.innerHTML = `
         <div class="card-body">
             <div class="flex justify-between items-start mb-3">
                 <h3 class="card-title text-coffee-800 text-lg">${cafe.name}</h3>
                 <div class="badge badge-coffee">${cafe.rating.toFixed(1)}</div>
             </div>
-            
             <div class="flex items-center gap-2 mb-3">
                 <div class="rating rating-sm">
                     ${stars}
                 </div>
                 <span class="text-sm text-coffee-600">(${cafe.reviewCount} reviews)</span>
             </div>
-            
             <div class="space-y-2 text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                     <i class="fas fa-map-marker-alt text-coffee-500"></i>
@@ -121,7 +118,6 @@ function createCafeCard(cafe) {
                 </div>
                 ` : ''}
             </div>
-            
             <div class="card-actions justify-end mt-4">
                 <button class="btn btn-sm btn-coffee" onclick="event.stopPropagation(); openCafeDetails('${cafe.id}')">
                     <i class="fas fa-eye mr-1"></i>View Details
@@ -129,7 +125,7 @@ function createCafeCard(cafe) {
             </div>
         </div>
     `;
-    
+
     return card;
 }
 
